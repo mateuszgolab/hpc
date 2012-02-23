@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Test", "Test\Test.vcxproj", "{42820865-EB06-416A-B4BF-2F9A5A43C5BE}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Serial", "Serial\Serial.vcxproj", "{09E71135-8DD6-4313-8EFB-136437E87774}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Parallel", "Parallel\Parallel.vcxproj", "{6C366124-5550-4807-A901-2F2FF506B74A}"
+EndProject
+Global
+	GlobalSection(SubversionScc) = preSolution
+		Svn-Managed = True
+		Manager = AnkhSVN - Subversion Support for Visual Studio
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{42820865-EB06-416A-B4BF-2F9A5A43C5BE}.Debug|Win32.ActiveCfg = Debug|Win32
+		{42820865-EB06-416A-B4BF-2F9A5A43C5BE}.Debug|Win32.Build.0 = Debug|Win32
+		{42820865-EB06-416A-B4BF-2F9A5A43C5BE}.Release|Win32.ActiveCfg = Release|Win32
+		{42820865-EB06-416A-B4BF-2F9A5A43C5BE}.Release|Win32.Build.0 = Release|Win32
+		{09E71135-8DD6-4313-8EFB-136437E87774}.Debug|Win32.ActiveCfg = Debug|Win32
+		{09E71135-8DD6-4313-8EFB-136437E87774}.Debug|Win32.Build.0 = Debug|Win32
+		{09E71135-8DD6-4313-8EFB-136437E87774}.Release|Win32.ActiveCfg = Release|Win32
+		{09E71135-8DD6-4313-8EFB-136437E87774}.Release|Win32.Build.0 = Release|Win32
+		{6C366124-5550-4807-A901-2F2FF506B74A}.Debug|Win32.ActiveCfg = Debug|Win32
+		{6C366124-5550-4807-A901-2F2FF506B74A}.Debug|Win32.Build.0 = Debug|Win32
+		{6C366124-5550-4807-A901-2F2FF506B74A}.Release|Win32.ActiveCfg = Release|Win32
+		{6C366124-5550-4807-A901-2F2FF506B74A}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
