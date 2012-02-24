@@ -1,5 +1,5 @@
 #pragma once
-#include "norm.h"
+#include "Norm.h"
 class FirstNorm : public Norm
 {
 public:
