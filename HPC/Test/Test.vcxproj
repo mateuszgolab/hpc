@@ -14,6 +14,10 @@
     <ProjectGuid>{42820865-EB06-416A-B4BF-2F9A5A43C5BE}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>Test</RootNamespace>
+    <SccProjectName>Svn</SccProjectName>
+    <SccAuxPath>Svn</SccAuxPath>
+    <SccLocalPath>Svn</SccLocalPath>
+    <SccProvider>SubversionScc</SccProvider>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -52,7 +56,7 @@
       <WarningLevel>Level4</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_USE_MATH_DEFINES;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>E:\VSSolutions\HPC\Common;E:\VSSolutions\HPC\Serial;E:\gtest-1.6.0\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>E:\VSSolutions\HPC\MpiParallel;E:\VSSolutions\HPC\Serial;E:\gtest-1.6.0\include</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
@@ -84,10 +88,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\Parallel\AnalyticSolver.cpp" />
-    <ClCompile Include="..\Parallel\InfinityNorm.cpp" />
-    <ClCompile Include="..\Parallel\IterativeSolver.cpp" />
-    <ClCompile Include="..\Parallel\matrix.cpp" />
+    <ClCompile Include="..\MpiParallel\AnalyticSolver.cpp" />
+    <ClCompile Include="..\MpiParallel\InfinityNorm.cpp" />
+    <ClCompile Include="..\MpiParallel\IterativeSolver.cpp" />
+    <ClCompile Include="..\MpiParallel\matrix.cpp" />
     <ClCompile Include="..\Serial\EuclideanNorm.cpp" />
     <ClCompile Include="..\Serial\FirstNorm.cpp" />
     <ClCompile Include="AnalyticSolutionTest.cc" />
