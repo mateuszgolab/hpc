@@ -5,7 +5,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Test", "Test\Test.vcxproj",
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Serial", "Serial\Serial.vcxproj", "{09E71135-8DD6-4313-8EFB-136437E87774}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Parallel", "Parallel\Parallel.vcxproj", "{6C366124-5550-4807-A901-2F2FF506B74A}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MpiParallel", "MpiParallel\MpiParallel.vcxproj", "{AFD02D4B-B780-443D-8C51-DE4797CCF95F}"
 EndProject
 Global
 	GlobalSection(SubversionScc) = preSolution
@@ -25,10 +25,10 @@ Global
 		{09E71135-8DD6-4313-8EFB-136437E87774}.Debug|Win32.Build.0 = Debug|Win32
 		{09E71135-8DD6-4313-8EFB-136437E87774}.Release|Win32.ActiveCfg = Release|Win32
 		{09E71135-8DD6-4313-8EFB-136437E87774}.Release|Win32.Build.0 = Release|Win32
-		{6C366124-5550-4807-A901-2F2FF506B74A}.Debug|Win32.ActiveCfg = Debug|Win32
-		{6C366124-5550-4807-A901-2F2FF506B74A}.Debug|Win32.Build.0 = Debug|Win32
-		{6C366124-5550-4807-A901-2F2FF506B74A}.Release|Win32.ActiveCfg = Release|Win32
-		{6C366124-5550-4807-A901-2F2FF506B74A}.Release|Win32.Build.0 = Release|Win32
+		{AFD02D4B-B780-443D-8C51-DE4797CCF95F}.Debug|Win32.ActiveCfg = Debug|Win32
+		{AFD02D4B-B780-443D-8C51-DE4797CCF95F}.Debug|Win32.Build.0 = Debug|Win32
+		{AFD02D4B-B780-443D-8C51-DE4797CCF95F}.Release|Win32.ActiveCfg = Release|Win32
+		{AFD02D4B-B780-443D-8C51-DE4797CCF95F}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
