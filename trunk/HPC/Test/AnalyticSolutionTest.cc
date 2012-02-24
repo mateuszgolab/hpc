@@ -23,16 +23,16 @@ TEST(AnalyticSolutionTest, BoundaryValuesTest) {
 
 	matrix m(100,100);
 	AnalyticSolver::analyticSolution(m, 100);
-	for(int i = 0; i < m.getYsize(); i++)
+	for(int i = 0; i < m.getXsize(); i++)
 	{	
-		EXPECT_LE(m(m.getXsize() - 1, i), STOP_CRITERION);
-		EXPECT_LE(m(0, i), STOP_CRITERION);
+		EXPECT_LE(m(i, 0), STOP_CRITERION);
+		EXPECT_LE(m(i, m.getYsize() - 1), STOP_CRITERION);
 		
 	}
 
 	for(int j = 0; j < m.getYsize(); j++)
 	{
-		EXPECT_LE(m(j, m.getYsize() - 1), STOP_CRITERION);
+		EXPECT_LE(m(m.getXsize() - 1, j), STOP_CRITERION);
 	}
 }
 

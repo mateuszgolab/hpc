@@ -44,7 +44,7 @@ TEST(JacobiTest, ConvergenceTest)
 
 TEST(MatrixInitializationTest, StripeRowsMatrixBoudaryColumns)
 {
-	matrix m(100, 10);
+	matrix m(10, 100);
 	IterativeSolver::initMatrix(m);
 
 	for(int i = 0; i < m.getYsize(); i++)
@@ -53,10 +53,8 @@ TEST(MatrixInitializationTest, StripeRowsMatrixBoudaryColumns)
 	}
 
 
-	for(int j = 1; j < m.getYsize() - 1; j++)
-	{
-		EXPECT_NE(m(0, j), 0.0);
-	}
+	EXPECT_NE(m(0, m.getYsize() / 2), 0.0);
+	
 }
 
 TEST(MatrixInitializationTest, StripeRowsMatrixBoudaryRows)
@@ -64,12 +62,10 @@ TEST(MatrixInitializationTest, StripeRowsMatrixBoudaryRows)
 	matrix m(100, 10);
 	IterativeSolver::initMatrix(m);
 
-
-
-	for(int j = 0; j < m.getYsize(); j++)
+	for(int i = 0; i < m.getXsize(); i++)
 	{
-		EXPECT_EQ(m(j, m.getXsize() - 1), 0.0);
-		EXPECT_EQ(m(j, 0), 0.0);
+		EXPECT_LE(m(i, m.getYsize() - 1), STOP_CRITERION);
+		EXPECT_LE(m(i, 0), 0.0);
 	}
 
 }
@@ -81,20 +77,22 @@ TEST(MatrixInitializationTest, BoundaryValuesTest)
 	matrix m(100,100);
 	IterativeSolver::initMatrix(m);
 
-	for(int i = 0; i < m.getYsize(); i++)
+
+
+	for(int i = 0; i < m.getXsize(); i++)
 	{	
-		EXPECT_LE(m(m.getXsize() - 1, i), STOP_CRITERION);
-		EXPECT_LE(m(0, i), STOP_CRITERION);
+		EXPECT_LE(m(i, 0), STOP_CRITERION);
+		EXPECT_LE(m(i, m.getYsize() - 1), STOP_CRITERION);
 
 	}
 
 	for(int j = 0; j < m.getYsize(); j++)
 	{
-		EXPECT_LE(m(j, m.getYsize() - 1), STOP_CRITERION);
+		EXPECT_LE(m(m.getXsize() - 1,  j), STOP_CRITERION);
 	}
 
 	for(int j = 1; j < m.getYsize() - 1; j++)
 	{
-		EXPECT_NE(m(j, 0), 0.0);
+		EXPECT_NE(m(0, j), 0.0);
 	}
 }
