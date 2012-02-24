@@ -22,9 +22,9 @@ double EuclideanNorm::calculateNorm(matrix & r)
 {
 	double error = 0.0;
 	double value = 0.0;
-	for(int i = 0; i < r.getYsize(); i++)
+	for(int i = 0; i < r.getXsize(); i++)
 	{
-		for(int j = 0; j < r.getXsize(); j++)
+		for(int j = 0; j < r.getYsize(); j++)
 		{
 			error += r(i,j) * r(i,j);
 			r.setValue(i,j,0.0);
