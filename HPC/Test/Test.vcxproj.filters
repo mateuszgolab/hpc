@@ -42,5 +42,16 @@
     <ClCompile Include="..\MpiParallel\matrix.cpp">
       <Filter>Resource Files</Filter>
     </ClCompile>
+    <ClCompile Include="ParallelTest.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="mpiMock.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="mpiMock.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

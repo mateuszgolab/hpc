@@ -7,17 +7,31 @@
 #define DEFAULT_SIZE 128
 #define DEFAULT_MAX_ITERATIONS 1000
 
-void exchangeHaloNodes(matrix m, int rank)
+void exchangeHaloNodes(matrix & m, int rank, int size)
 {
-//	MPI_Send(tab[size_d - 2], size_x, MPI_DOUBLE, rank+DOWN, rank, MPI_COMM_WORLD);
-//	MPI_Recv(halo_down, size_x, MPI_DOUBLE, rank+DOWN,rank+DOWN,MPI_COMM_WORLD,&status);
+	MPI_Status status;
+
+	if(rank > 0)
+	{
+		// sending second row
+		MPI_Send(m.getSecondRow(), m.getXsize(), MPI_DOUBLE, rank - 1, rank, MPI_COMM_WORLD);
+		// receiving first row
+		MPI_Recv(m.getFirstRow(), m.getXsize(), MPI_DOUBLE, rank - 1, rank - 1, MPI_COMM_WORLD, &status);
+	}
+
+	if(rank < size - 1)
+	{
+		// sending penultimate row
+		MPI_Send(m.getPenultimateRow(), m.getXsize(), MPI_DOUBLE, rank + 1, rank, MPI_COMM_WORLD);
+		// receiving last row
+		MPI_Recv(m.getLastRow(), m.getXsize(), MPI_DOUBLE, rank + 1, rank + 1, MPI_COMM_WORLD, &status);
+	}
 }
 
 int main(int argc, char **argv)
 {
 	int size, rank, sizeY, additionalSize, sizeX, iterations;
 	double error, maxError;
-	MPI_Status status;
 	InfinityNorm norm;
 
 	
@@ -31,7 +45,7 @@ int main(int argc, char **argv)
 
 	sizeX = DEFAULT_SIZE;
 	if(argc > 1)
-		sscanf(argv[1], "%d", &sizeX);
+		sscanf_s(argv[1], "%d", &sizeX);
 
 	iterations = DEFAULT_MAX_ITERATIONS;
 	if(argc > 2)
@@ -48,11 +62,13 @@ int main(int argc, char **argv)
 		matrix m(sizeX, sizeY);
 		IterativeSolver::initMatrix(m);
 
-		for(int i; i < iterations; i++)
+		for(int i = 0; i < iterations; i++)
 		{
 			error = IterativeSolver::jacobiRedBlackForParallel(m, norm);
 			MPI_Barrier(MPI_COMM_WORLD);
 			MPI_Allreduce(&error, &maxError, 1, MPI_DOUBLE, MPI_MAX, MPI_COMM_WORLD);
+
+			exchangeHaloNodes(m, rank, size);
 			
 			if(maxError < STOP_CRITERION) break;
 		}
@@ -63,11 +79,13 @@ int main(int argc, char **argv)
 		matrix m(sizeX, sizeY);
 		IterativeSolver::initMatrix(m);
 
-		for(int i; i < iterations; i++)
+		for(int i = 0; i < iterations; i++)
 		{
 			error = IterativeSolver::jacobiRedBlackForParallel(m, norm);
 			MPI_Barrier(MPI_COMM_WORLD);
 			MPI_Allreduce(&error, &maxError, 1, MPI_DOUBLE, MPI_MAX, MPI_COMM_WORLD);
+
+			exchangeHaloNodes(m, rank, size);
 		}
 	}
 	else
@@ -76,11 +94,13 @@ int main(int argc, char **argv)
 		matrix m(sizeX, sizeY);
 		IterativeSolver::initMatrix(m);
 
-		for(int i; i < iterations; i++)
+		for(int i = 0; i < iterations; i++)
 		{
 			error = IterativeSolver::jacobiRedBlackForParallel(m, norm);
 			MPI_Barrier(MPI_COMM_WORLD);
 			MPI_Allreduce(&error, &maxError, 1, MPI_DOUBLE, MPI_MAX, MPI_COMM_WORLD);
+
+			exchangeHaloNodes(m, rank, size);
 		}
 	}
 

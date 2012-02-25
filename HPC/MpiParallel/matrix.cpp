@@ -192,11 +192,25 @@ void matrix::printForChart()
 	}
 }
 
-double* matrix::getFirstRow(int i)
+double* matrix::getFirstRow()
 {
-	return data[i];
+	return data[0];
 }
 
+double* matrix::getSecondRow()
+{
+	return data[1];
+}
+
+double* matrix::getPenultimateRow()
+{
+	return data[y_size - 2];
+}
+
+double* matrix::getLastRow()
+{
+	return data[y_size - 1];
+}
 
 void matrix::setFirstRow(double* row)
 {
