@@ -9,14 +9,14 @@ void AnalyticSolver::analyticSolution(matrix &m, int iterations)
 {
 	double x = 0.0;
 	double y = 0.0;
-	double x_step = 1.0 / (m.getXsize() - 1);
-	double y_step = 1.0 / (m.getYsize() - 1);
+	double x_step = 1.0 / (m.getNumberOfColumns() - 1);
+	double y_step = 1.0 / (m.getNumberOfRows() - 1);
 	double tmp;
 
-	for(int i = 0; i < m.getXsize(); i++)
+	for(int i = 0; i < m.getNumberOfRows(); i++)
 	{
-		y = 0.0;
-		for(int j = 0; j < m.getYsize(); j++)
+		x = 0.0;
+		for(int j = 0; j < m.getNumberOfColumns(); j++)
 		{
 			tmp = 0.0;
 			
@@ -24,24 +24,24 @@ void AnalyticSolver::analyticSolution(matrix &m, int iterations)
 			{
 				tmp += (-8 * sinh(it * M_PI * (1.0-x)) * sin(it * M_PI * y)) / (M_PI * it * (it * it - 4) * sinh(it * M_PI)) ;
 			}
-			m.setValue(i, j , tmp);
-			y += y_step;
+			m.setValue(j, i , tmp);
+			x += x_step;
 		}
-		x += x_step;
+		y += y_step;
 	}
 }
 
 double AnalyticSolver::validate(matrix & m1, matrix & m2)
 {
-	if((m1.getXsize() != m2.getXsize()) || (m1.getYsize() != m2.getYsize())) return -1.0;
+	if((m1.getNumberOfColumns() != m2.getNumberOfColumns()) || (m1.getNumberOfRows() != m2.getNumberOfRows())) return -1.0;
 
 	srand(unsigned int(time(0)));
 	double accuracy = 0.0;
 
-	for(int i = 0; i < m1.getXsize(); i++)
+	for(int i = 0; i < m1.getNumberOfColumns(); i++)
 	{
-		int x = rand() % m1.getXsize();
-		int y = rand() % m2.getYsize();
+		int x = rand() % m1.getNumberOfColumns();
+		int y = rand() % m2.getNumberOfRows();
 		
 		if(abs(m1(x,y) - m2(x,y)) > accuracy) accuracy = abs(m1(x,y) - m2(x,y));
 	}

@@ -58,7 +58,7 @@ TEST(FirstNormTest, differentMatricesTest1) {
 TEST(FirstNormTest, differentMatricesTest2) {
 
 	matrix m(10,10);
-	// last row = 135
+	// last column = 90 + 45 = 135
 	for(int i = 0; i < 10; i++)
 	{
 		for(int j = 0; j < 10; j++)
@@ -67,7 +67,7 @@ TEST(FirstNormTest, differentMatricesTest2) {
 		}
 	}
 
-	// last row = 45
+	// last column = 90
 	matrix m2(10,10);
 	for(int i = 0; i < 10; i++)
 	{
@@ -78,7 +78,7 @@ TEST(FirstNormTest, differentMatricesTest2) {
 	}
 
 	FirstNorm norm;
-	EXPECT_EQ(norm.calculateNorm(m, m2), 90.0);
+	EXPECT_EQ(norm.calculateNorm(m, m2), 45.0);
 	
 }
 
@@ -135,7 +135,7 @@ TEST(InfinityNormTest, differentMatricesTest1) {
 TEST(InfinityNormTest, differentMatricesTest2) {
 
 	matrix m(10,10);
-	// last row = 135
+	// last row = 90 + 45 = 135
 	for(int i = 0; i < 10; i++)
 	{
 		for(int j = 0; j < 10; j++)
@@ -144,7 +144,7 @@ TEST(InfinityNormTest, differentMatricesTest2) {
 		}
 	}
 
-	// last row = 90
+	// last row = 45
 	matrix m2(10,10);
 	for(int i = 0; i < 10; i++)
 	{
@@ -155,7 +155,7 @@ TEST(InfinityNormTest, differentMatricesTest2) {
 	}
 
 	InfinityNorm norm;
-	EXPECT_EQ(norm.calculateNorm(m, m2), 45.0);
+	EXPECT_EQ(norm.calculateNorm(m, m2), 90.0);
 	
 }
 

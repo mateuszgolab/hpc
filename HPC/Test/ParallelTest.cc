@@ -15,25 +15,13 @@ TEST(parallelAlgorithmTest, haloNodesExchangeTest) {
 		}
 	}
 
-	matrix m2(10,10);
-	for(int i = 0; i < 10; i++)
-	{
-		for(int j = 0; j < 10; j++)
-		{
-			m2.setValue(i,j ,10 - i);
-		}
-	}
-
 	mpiMock mock;
-
+	mock.addHaloNode(1, m.getSecondRow());
 	mock.exchangeHaloNodesMock(m, 0, 10);
-	mock.exchangeHaloNodesMock(m2, 1, 10);
 
 
 	for(int i = 0; i < 10; i++)
 	{
-		m(0, i) == 10;
-		m2(9, i) == 0;
-	}
-	
+		EXPECT_EQ(m(9, i), 1);
+	}	
 }
