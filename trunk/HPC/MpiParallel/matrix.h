@@ -4,19 +4,19 @@
 class matrix
 {
 	double **data;
-	int x_size;
-	int y_size;
+	int rows;
+	int columns;
 	std::vector<double*> overridenRows;
 
 
 public:
 	matrix();
-	matrix(int x_s, int y_s);
-	matrix(double **data, int x_s, int y_s);
+	matrix(int r, int c);
+	matrix(double **data, int r, int c);
 	~matrix();
 	matrix& operator=(matrix &m);
-	int getXsize();
-	int getYsize();
+	int getNumberOfRows();
+	int getNumberOfColumns();
 	double** getMatrix();
 	double* getFirstRow();
 	double* getSecondRow();
@@ -28,7 +28,7 @@ public:
 	double operator()(int x, int y);
 	void print();
 	void graphPrint();
-	void printForChart();
+
 
 
 };

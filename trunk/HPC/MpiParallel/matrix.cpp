@@ -3,19 +3,19 @@
 #include <stdio.h>
 
 
-matrix::matrix() : x_size(0), y_size(0), data(NULL) {};
+matrix::matrix() : rows(0), columns(0), data(NULL) {};
 
-matrix::matrix(int x_s, int y_s) : x_size(x_s), y_size(y_s)
+matrix::matrix(int r, int c) : rows(r), columns(c)
 {
-	data = new double*[x_size];
-	for(int i = 0; i < x_size; i++)
+	data = new double*[rows];
+	for(int i = 0; i < rows; i++)
 	{
-		data[i] = new double[y_size];
+		data[i] = new double[columns];
 	}
 
-	for(int i = 0; i < x_size; i++)
+	for(int i = 0; i < rows; i++)
 	{
-		for(int j = 0; j < y_size; j++)
+		for(int j = 0; j < columns; j++)
 		{
 			data[i][j] = 0.0;
 		}
@@ -23,17 +23,17 @@ matrix::matrix(int x_s, int y_s) : x_size(x_s), y_size(y_s)
 
 }
 
-matrix::matrix(double **d, int x_s, int y_s) : x_size(x_s), y_size(y_s)
+matrix::matrix(double **d, int r, int c) : rows(r), columns(c)
 {
-	data = new double*[x_size];
-	for(int i = 0; i < x_size; i++)
+	data = new double*[rows];
+	for(int i = 0; i < rows; i++)
 	{
-		data[i] = new double[y_size];
+		data[i] = new double[columns];
 	}
 
-	for(int i = 0; i < x_size; i++)
+	for(int i = 0; i < rows; i++)
 	{
-		for(int j = 0; j < y_size; j++)
+		for(int j = 0; j < columns; j++)
 		{
 			data[i][j] = d[i][j];
 		}
@@ -44,7 +44,7 @@ matrix::~matrix()
 {
 	if(data != NULL)
 	{
-		for(int i = 0; i < x_size; i++)
+		for(int i = 0; i < rows; i++)
 		{
 			if(data[i] != NULL)
 			{
@@ -73,11 +73,11 @@ matrix& matrix::operator=(matrix &m)
 {
 	if(this == &m) return *this;
 
-	if(x_size == m.getXsize() && y_size == m.getYsize())
+	if(columns == m.getNumberOfColumns() && rows == m.getNumberOfRows())
 	{
-		for(int i = 0; i < x_size; i++)
+		for(int i = 0; i < rows; i++)
 		{
-			for(int j = 0; j < y_size; j++)
+			for(int j = 0; j < columns; j++)
 			{
 				data[i][j] = m(i, j);
 			}
@@ -88,7 +88,7 @@ matrix& matrix::operator=(matrix &m)
 
 	if(data != NULL)
 	{
-		for(int i = 0; i < x_size; i++)
+		for(int i = 0; i < rows; i++)
 		{
 			if(data[i] != NULL)
 			{
@@ -101,37 +101,36 @@ matrix& matrix::operator=(matrix &m)
 		data = NULL;
 	}
 
-	x_size = m.getXsize();
-	y_size = m.getYsize();
+	rows = m.getNumberOfRows();
+	columns = m.getNumberOfColumns();
 
-	data = new double*[x_size];
-	for(int i = 0; i < x_size; i++)
+	data = new double*[rows];
+	for(int i = 0; i < rows; i++)
 	{
-		data[i] = new double[y_size];
+		data[i] = new double[columns];
 	}
 
-	for(int i = 0; i < x_size; i++)
+
+	for(int i = 0; i < rows; i++)
 	{
-		for(int i = 0; i < x_size; i++)
+		for(int j = 0; j < columns; j++)
 		{
-			for(int j = 0; j < y_size; j++)
-			{
-				data[i][j] = m(i, j);
-			}
+			data[i][j] = m(i, j);
 		}
 	}
+
 
 	return *this;
 }
 
-int matrix::getXsize()
+int matrix::getNumberOfColumns()
 {
-	return x_size;
+	return columns;
 }
 
-int matrix::getYsize()
+int matrix::getNumberOfRows()
 {
-	return y_size;
+	return rows;
 }
 
 double** matrix::getMatrix()
@@ -141,24 +140,24 @@ double** matrix::getMatrix()
 
 void matrix::setValue(int x, int y, double v)
 {
-	data[x][y] = v;
+	data[y][x] = v;
 }
 
 double matrix::operator()(int x, int y)
 {
-	return data[x][y];
+	return data[y][x];
 }
 
 void matrix::graphPrint()
 {
 	puts("Y    |");
 	//puts("1.00 |");
-	for(int i = 0 ; i < x_size; i++)
+	for(int i = columns - 1 ; i >= 0; i--)
 	{
-		printf("%.2f |",(double)i/(x_size - 1));
-		for(int j = 0; j < y_size; j++)
+		printf("%.2f |",(double)i/(rows - 1));
+		for(int j = 0; j < rows; j++)
 		{
-			printf("%f ", data[j][i]);
+			printf("%f ", data[i][j]);
 		}
 		puts("");
 	}
@@ -168,10 +167,10 @@ void matrix::graphPrint()
 
 void matrix::print()
 {
-	for(int i = y_size -1  ; i >= 0; i--)
+	for(int i = columns -1  ; i >= 0; i--)
 	{
 		
-		for(int j = 0; j < x_size; j++)
+		for(int j = 0; j < rows; j++)
 		{
 			printf("%f ", data[i][j]);
 		}
@@ -179,18 +178,6 @@ void matrix::print()
 	}
 }
 
-void matrix::printForChart()
-{
-	for(int i = 0  ; i < x_size; i++)
-	{
-		
-		for(int j = 0; j < y_size; j++)
-		{
-			printf("%f ", data[j][i]);
-		}
-		puts("");
-	}
-}
 
 double* matrix::getFirstRow()
 {
@@ -204,12 +191,12 @@ double* matrix::getSecondRow()
 
 double* matrix::getPenultimateRow()
 {
-	return data[y_size - 2];
+	return data[rows - 2];
 }
 
 double* matrix::getLastRow()
 {
-	return data[y_size - 1];
+	return data[rows - 1];
 }
 
 void matrix::setFirstRow(double* row)
@@ -220,6 +207,6 @@ void matrix::setFirstRow(double* row)
 
 void matrix::setLastRow(double* row)
 {
-	overridenRows.push_back(data[y_size - 1]);
-	data[y_size - 1] = row;
+	overridenRows.push_back(data[rows - 1]);
+	data[rows - 1] = row;
 }

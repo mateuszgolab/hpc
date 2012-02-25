@@ -11,7 +11,7 @@
 
 
 
-#define N 100
+#define N 256
 #define ANALYTIC_ITERATIONS 100
 #define JACOBI_ITERATIONS 100000
 
@@ -92,9 +92,10 @@ int main()
 	EuclideanNorm eucNorm;
 	FirstNorm fstNorm;
 	//
-	//matrix m(10,10);
-	//AnalyticSolver::analyticSolution(m, 100);
-	//m.printForChart();
+	matrix m(10,10);
+	AnalyticSolver::analyticSolution(m, 100);
+	m.graphPrint();
+	m.print();
 
 	//matrix m2(10,10);
 	//map<int, double> mp;
@@ -107,13 +108,12 @@ int main()
 	//m2.printForChart();
 
 
-	matrix m(N, N);
+	/*matrix m(N, N);
 	AnalyticSolver::analyticSolution(m, ANALYTIC_ITERATIONS);
 
 	jacobiMethods(infNorm, N, m);
 	jacobiMethods(fstNorm, N, m);
-	jacobiMethods(eucNorm, N, m);
+	jacobiMethods(eucNorm, N, m);*/
 
-	getchar();
 	return 0;
 }

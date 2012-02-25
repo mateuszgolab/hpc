@@ -17,13 +17,13 @@ int IterativeSolver::jacobi(matrix &m, int iterations, map<int, double> & conver
 	double error = 0.0;
 	double value = 0.0;
 	int it;
-	matrix r(m.getXsize(), m.getYsize());
+	matrix r(m.getNumberOfRows(), m.getNumberOfColumns());
 
 	for(it = 0; it < iterations; it++)
 	{
-		for(int i = 1; i < m.getXsize() - 1; i++)
+		for(int j = 1; j < m.getNumberOfRows() - 1; j++)
 		{
-			for(int j = 1; j < m.getYsize() - 1; j++)
+			for(int i = 1; i < m.getNumberOfColumns() - 1; i++)
 			{
 				value = 0.25 * (matrices[it%2](i-1,j) + matrices[it%2](i+1,j) + matrices[it%2](i,j-1) + matrices[it%2](i,j+1));
 				r.setValue(i, j, abs(value - matrices[it%2](i, j)));
@@ -60,7 +60,7 @@ int IterativeSolver::jacobiRedBlack(matrix &m, int iterations, map<int, double> 
 	double value = 0.0;
 	int it;
 	int color;
-	matrix r(m.getXsize(), m.getYsize());
+	matrix r(m.getNumberOfRows(), m.getNumberOfColumns());
 
 
 	for(it = 0; it < iterations; it++)
@@ -69,9 +69,9 @@ int IterativeSolver::jacobiRedBlack(matrix &m, int iterations, map<int, double> 
 
 		//color = red
 		color = 0;
-		for(int i = 1; i < m.getXsize() - 1; i++)
+		for(int i = 1; i < m.getNumberOfRows() - 1; i++)
 		{
-			for(int j = 1 + (i+color)%2; j < m.getYsize() - 1; j+=2)
+			for(int j = 1 + (i+color)%2; j < m.getNumberOfColumns() - 1; j+=2)
 			{
 				/*value = 0.25 * (matrices[it%2](i-1,j) + matrices[it%2](i+1,j) + matrices[it%2](i,j-1) + matrices[it%2](i,j+1));
 				matrices[(it+1)%2].setValue(i, j, value);*/
@@ -85,9 +85,9 @@ int IterativeSolver::jacobiRedBlack(matrix &m, int iterations, map<int, double> 
 
 		//color = black
 		color = 1;
-		for(int i = 1; i < m.getXsize() - 1; i++)
+		for(int i = 1; i < m.getNumberOfRows() - 1; i++)
 		{
-			for(int j = 1 + (i+color)%2; j < m.getYsize() - 1; j+=2)
+			for(int j = 1 + (i+color)%2; j < m.getNumberOfColumns() - 1; j+=2)
 			{
 				/*value = 0.25 * (matrices[(it+1)%2](i-1,j) + matrices[(it+1)%2](i+1,j) + matrices[(it+1)%2](i,j-1) + matrices[(it+1)%2](i,j+1));
 				matrices[(it+1)%2].setValue(i, j, value);*/
@@ -122,13 +122,13 @@ double IterativeSolver::jacobiRedBlackForParallel(matrix &m, Norm & norm)
 	double maxError = 0.0;
 	double value = 0.0;
 	int color;
-	matrix r(m.getXsize(), m.getYsize());
+	matrix r(m.getNumberOfRows(), m.getNumberOfColumns());
 
 	//color = red
 	color = 0;
-	for(int i = 1; i < m.getXsize() - 1; i++)
+	for(int i = 1; i < m.getNumberOfRows() - 1; i++)
 	{
-		for(int j = 1 + (i+color)%2; j < m.getYsize() - 1; j+=2)
+		for(int j = 1 + (i+color)%2; j < m.getNumberOfColumns() - 1; j+=2)
 		{
 			value = 0.25 * (m(i-1,j) + m(i+1,j) + m(i,j-1) + m(i,j+1));
 			r.setValue(i, j, abs(value - m(i, j)));
@@ -140,9 +140,9 @@ double IterativeSolver::jacobiRedBlackForParallel(matrix &m, Norm & norm)
 
 	//color = black
 	color = 1;
-	for(int i = 1; i < m.getXsize() - 1; i++)
+	for(int i = 1; i < m.getNumberOfRows() - 1; i++)
 	{
-		for(int j = 1 + (i+color)%2; j < m.getYsize() - 1; j+=2)
+		for(int j = 1 + (i+color)%2; j < m.getNumberOfColumns() - 1; j+=2)
 		{
 			value = 0.25 * (m(i-1,j) + m(i+1,j) + m(i,j-1) + m(i,j+1));
 			r.setValue(i, j, abs(value - m(i, j)));
@@ -159,17 +159,17 @@ double IterativeSolver::jacobiRedBlackForParallel(matrix &m, Norm & norm)
 void IterativeSolver::initMatrix(matrix &m)
 {
 	double y = 0.0;
-	double y_step = 1.0 / (m.getYsize() - 1);
+	double y_step = 1.0 / (m.getNumberOfRows() - 1);
 
-	for(int j = 0 ; j < m.getYsize(); j++)
+	for(int j = 0 ; j < m.getNumberOfRows(); j++)
 	{
 		m.setValue(0, j, pow(sin(M_PI * y), 2));	
 		y += y_step;
 	}
 
-	for(int i = 1 ; i < m.getXsize(); i++)
+	for(int i = 1 ; i < m.getNumberOfColumns(); i++)
 	{
-		for(int j = 1; j < m.getYsize(); j++)
+		for(int j = 0; j < m.getNumberOfRows(); j++)
 		{
 			m.setValue(i, j, 0.0);
 		}

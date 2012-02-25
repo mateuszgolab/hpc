@@ -14,17 +14,17 @@ void exchangeHaloNodes(matrix & m, int rank, int size)
 	if(rank > 0)
 	{
 		// sending second row
-		MPI_Send(m.getSecondRow(), m.getXsize(), MPI_DOUBLE, rank - 1, rank, MPI_COMM_WORLD);
+		MPI_Send(m.getSecondRow(), m.getNumberOfColumns(), MPI_DOUBLE, rank - 1, rank, MPI_COMM_WORLD);
 		// receiving first row
-		MPI_Recv(m.getFirstRow(), m.getXsize(), MPI_DOUBLE, rank - 1, rank - 1, MPI_COMM_WORLD, &status);
+		MPI_Recv(m.getFirstRow(), m.getNumberOfColumns(), MPI_DOUBLE, rank - 1, rank - 1, MPI_COMM_WORLD, &status);
 	}
 
 	if(rank < size - 1)
 	{
 		// sending penultimate row
-		MPI_Send(m.getPenultimateRow(), m.getXsize(), MPI_DOUBLE, rank + 1, rank, MPI_COMM_WORLD);
+		MPI_Send(m.getPenultimateRow(), m.getNumberOfColumns(), MPI_DOUBLE, rank + 1, rank, MPI_COMM_WORLD);
 		// receiving last row
-		MPI_Recv(m.getLastRow(), m.getXsize(), MPI_DOUBLE, rank + 1, rank + 1, MPI_COMM_WORLD, &status);
+		MPI_Recv(m.getLastRow(), m.getNumberOfColumns(), MPI_DOUBLE, rank + 1, rank + 1, MPI_COMM_WORLD, &status);
 	}
 }
 
