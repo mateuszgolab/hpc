@@ -9,11 +9,12 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MpiParallel", "MpiParallel\
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{4A31CB72-398E-4A82-9303-87164438ECE9}"
 	ProjectSection(SolutionItems) = preProject
-		Documentation\HighPerformanceComputingAssignmentReport.docx = Documentation\HighPerformanceComputingAssignmentReport.docx
 		HPC.vsmdi = HPC.vsmdi
 		Local.testsettings = Local.testsettings
 		TraceAndTestImpact.testsettings = TraceAndTestImpact.testsettings
 	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Documentation", "Documentation\Documentation.vcxproj", "{9BA2E893-E9C9-4D79-92B0-ABA7133A06B7}"
 EndProject
 Global
 	GlobalSection(SubversionScc) = preSolution
@@ -40,6 +41,10 @@ Global
 		{AFD02D4B-B780-443D-8C51-DE4797CCF95F}.Debug|Win32.Build.0 = Debug|Win32
 		{AFD02D4B-B780-443D-8C51-DE4797CCF95F}.Release|Win32.ActiveCfg = Release|Win32
 		{AFD02D4B-B780-443D-8C51-DE4797CCF95F}.Release|Win32.Build.0 = Release|Win32
+		{9BA2E893-E9C9-4D79-92B0-ABA7133A06B7}.Debug|Win32.ActiveCfg = Debug|Win32
+		{9BA2E893-E9C9-4D79-92B0-ABA7133A06B7}.Debug|Win32.Build.0 = Debug|Win32
+		{9BA2E893-E9C9-4D79-92B0-ABA7133A06B7}.Release|Win32.ActiveCfg = Release|Win32
+		{9BA2E893-E9C9-4D79-92B0-ABA7133A06B7}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
