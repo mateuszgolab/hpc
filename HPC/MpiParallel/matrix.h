@@ -21,7 +21,7 @@ public:
 	double* getFirstRow();
     double* getSecondRow();
 	double* getPenultimateRow();
-	double* & getLastRow();
+	double* getLastRow();
 	void setFirstRow(double* row);
 	void setLastRow(double* row);
 	void setValue(int x, int y, double v);

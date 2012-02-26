@@ -194,7 +194,7 @@ double* matrix::getPenultimateRow()
 	return data[rows - 2];
 }
 
-double* & matrix::getLastRow()
+double* matrix::getLastRow()
 {
 	return data[rows - 1];
 }
