@@ -9,7 +9,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MpiParallel", "MpiParallel\
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{4A31CB72-398E-4A82-9303-87164438ECE9}"
 	ProjectSection(SolutionItems) = preProject
-		..\..\STUDIA\Cranfield\HPC\Assignment\HighPerformanceComputingAssignmentReport.docx = ..\..\STUDIA\Cranfield\HPC\Assignment\HighPerformanceComputingAssignmentReport.docx
+		Documentation\HighPerformanceComputingAssignmentReport.docx = Documentation\HighPerformanceComputingAssignmentReport.docx
 		HPC.vsmdi = HPC.vsmdi
 		Local.testsettings = Local.testsettings
 		TraceAndTestImpact.testsettings = TraceAndTestImpact.testsettings
