@@ -10,6 +10,9 @@
       <Platform>Win32</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="HighPerformanceComputingAssignmentReport.docx" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{9BA2E893-E9C9-4D79-92B0-ABA7133A06B7}</ProjectGuid>
     <RootNamespace>Documentation</RootNamespace>
@@ -59,9 +62,6 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <None Include="..\HighPerformanceComputingAssignmentReport.docx" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
