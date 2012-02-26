@@ -4,7 +4,8 @@
 
 class mpiMock
 {
-	 std::map<int, double*> haloNodes;
+	 std::map<int, double*> haloNodesUp;
+	 std::map<int, double*> haloNodesDown;
 
 	 static void printNode(double* node, int size);
 
