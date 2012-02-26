@@ -65,6 +65,7 @@ matrix::~matrix()
 		if(val != NULL)
 		{
 			delete [] val;
+			val = NULL;
 		}
 	}
 }
@@ -167,7 +168,7 @@ void matrix::graphPrint()
 
 void matrix::print()
 {
-	for(int i = columns -1  ; i >= 0; i--)
+	for(int i = 0 ; i < columns; i++)
 	{
 		
 		for(int j = 0; j < rows; j++)
@@ -177,7 +178,6 @@ void matrix::print()
 		puts("");
 	}
 }
-
 
 double* matrix::getFirstRow()
 {
@@ -194,7 +194,7 @@ double* matrix::getPenultimateRow()
 	return data[rows - 2];
 }
 
-double* matrix::getLastRow()
+double* & matrix::getLastRow()
 {
 	return data[rows - 1];
 }
