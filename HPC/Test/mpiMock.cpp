@@ -25,12 +25,36 @@ void mpiMock::exchangeHaloNodesMock(matrix & m, int rank, int size)
 
 void  mpiMock::MPI_Send_Mock(double* data, int size, int rank , int tag)
 {
-	haloNodes.insert(pair<int, double*>(tag, data));
+	if(rank < tag)
+	{
+		haloNodesDown.insert(pair<int, double*>(tag, data));
+	}
+	else
+	{
+		haloNodesUp.insert(pair<int, double*>(tag, data));
+	}
 }
 
 void  mpiMock::MPI_Recv_Mock(double*  data, int size, int rank , int tag)
 {
-	double *tmp = haloNodes[rank];
+	double *tmp = NULL;
+
+	if(rank < tag)
+	{
+		if(haloNodesUp.find(rank) != haloNodesUp.end())
+		{
+			tmp = haloNodesUp[rank];
+		}
+	}
+	else
+	{
+		if(haloNodesDown.find(rank) != haloNodesDown.end())
+		{
+			tmp = haloNodesDown[rank];
+		}
+	}
+
+	
 	if(tmp != NULL)
 	{
 		for(int i = 0; i < size; i++) data[i] = tmp[i];
@@ -39,7 +63,8 @@ void  mpiMock::MPI_Recv_Mock(double*  data, int size, int rank , int tag)
 
 void mpiMock::addHaloNode(int rank, double* haloNode)
 {
-	haloNodes.insert(pair<int, double*>(rank, haloNode));
+	haloNodesUp.insert(pair<int, double*>(rank, haloNode));
+	haloNodesDown.insert(pair<int, double*>(rank, haloNode));
 }
 
 void mpiMock::printNode(double *node, int size)
