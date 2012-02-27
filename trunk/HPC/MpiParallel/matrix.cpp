@@ -70,6 +70,30 @@ matrix::~matrix()
 	}
 }
 
+matrix::matrix(const matrix &m, int sizeX, int sizeY)
+{
+	rows = sizeY;
+	columns = sizeX;
+
+	int rowSize = (rows < m.getNumberOfRows())?rows:m.getNumberOfRows();
+	int columnSize = (columns < m.getNumberOfColumns())?columns:m.getNumberOfColumns();
+
+	data = new double*[rows];
+	for(int i = 0; i < rows; i++)
+	{
+		data[i] = new double[columns];
+	}
+
+
+	for(int i = 0; i < rowSize; i++)
+	{
+		for(int j = 0; j < columnSize; j++)
+		{
+			data[i][j] = m(i, j);
+		}
+	}
+}
+
 matrix& matrix::operator=(matrix &m)
 {
 	if(this == &m) return *this;
@@ -124,12 +148,12 @@ matrix& matrix::operator=(matrix &m)
 	return *this;
 }
 
-int matrix::getNumberOfColumns()
+int matrix::getNumberOfColumns() const
 {
 	return columns;
 }
 
-int matrix::getNumberOfRows()
+int matrix::getNumberOfRows() const
 {
 	return rows;
 }
@@ -139,12 +163,17 @@ double** matrix::getMatrix()
 	return data;
 }
 
+double* matrix::getRow(int i)
+{
+	return data[i];
+}
+
 void matrix::setValue(int x, int y, double v)
 {
 	data[y][x] = v;
 }
 
-double matrix::operator()(int x, int y)
+double matrix::operator()(int x, int y) const
 {
 	return data[y][x];
 }
