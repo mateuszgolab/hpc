@@ -42,6 +42,83 @@ TEST(JacobiTest, ConvergenceTest)
 	}
 }
 
+TEST(JacobiRedBlackTest, ValuesTest) {
+
+	InfinityNorm norm;
+	matrix m(10,10);
+	IterativeSolver::initMatrix(m);
+	map<int, double> mp;
+	IterativeSolver::jacobiRedBlack(m, 1000, mp, norm);
+
+	matrix m2(10,10);
+	IterativeSolver::initMatrix(m2);
+
+	for(int i = 1; i < m.getNumberOfColumns() - 1; i++)
+	{
+		for(int j = 1; j < m.getNumberOfRows() - 1; j++)
+		{
+			EXPECT_NE(m(i,j), m2(i,j));
+		}
+	}
+
+}
+
+TEST(JacobiRedBlackTest, ConvergenceTest)
+{
+	InfinityNorm norm;
+	matrix m(10, 10);
+	IterativeSolver::initMatrix(m);
+
+	map<int, double> mp;
+	IterativeSolver::jacobiRedBlack(m, 1000, mp, norm);
+	map<int, double>::iterator it;
+	double prev = 1000000000000;
+	for(it = mp.begin(); it != mp.end(); it++)
+	{
+		EXPECT_LT((*it).second, prev);
+		prev = (*it).second;
+	}
+}
+
+TEST(JacobiRedBlackForParallelTest, ValuesTest) {
+
+	/*InfinityNorm norm;
+	matrix m(10,10);
+	IterativeSolver::initMatrix(m);
+	map<int, double> mp;
+	IterativeSolver::jacobiRedBlack(m, 1000, mp, norm);
+
+	matrix m2(10,10);
+	IterativeSolver::initMatrix(m2);
+
+	for(int i = 1; i < m.getNumberOfColumns() - 1; i++)
+	{
+		for(int j = 1; j < m.getNumberOfRows() - 1; j++)
+		{
+			EXPECT_NE(m(i,j), m2(i,j));
+		}
+	}*/
+	EXPECT_EQ(1,2);
+}
+
+TEST(JacobiRedBlackForParallelTest, ConvergenceTest)
+{
+	/*InfinityNorm norm;
+	matrix m(10, 10);
+	IterativeSolver::initMatrix(m);
+
+	map<int, double> mp;
+	IterativeSolver::jacobiRedBlack(m, 1000, mp, norm);
+	map<int, double>::iterator it;
+	double prev = 1000000000000;
+	for(it = mp.begin(); it != mp.end(); it++)
+	{
+		EXPECT_LT((*it).second, prev);
+		prev = (*it).second;
+	}*/
+	EXPECT_EQ(1,2);
+}
+
 TEST(MatrixInitializationTest, StripeDecompositionColumns)
 {
 	matrix m(100, 10);

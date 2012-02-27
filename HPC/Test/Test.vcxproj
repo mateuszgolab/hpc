@@ -98,7 +98,7 @@
     <ClCompile Include="JacobiTest.cc" />
     <ClCompile Include="mpiMock.cpp" />
     <ClCompile Include="NormsTest.cc" />
-    <ClCompile Include="ParallelTest.cc" />
+    <ClCompile Include="HaloNodesTest.cc" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="mpiMock.h" />

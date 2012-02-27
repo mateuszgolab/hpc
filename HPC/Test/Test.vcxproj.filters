@@ -42,10 +42,10 @@
     <ClCompile Include="..\MpiParallel\matrix.cpp">
       <Filter>Resource Files</Filter>
     </ClCompile>
-    <ClCompile Include="ParallelTest.cc">
+    <ClCompile Include="mpiMock.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="mpiMock.cpp">
+    <ClCompile Include="HaloNodesTest.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
