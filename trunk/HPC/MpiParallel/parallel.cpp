@@ -59,13 +59,13 @@ void receiveResults(const matrix & m, int sizeX, int sizeY, int size, int rank)
 		limit = (rnk + 1)*sizeY;
 		for(; i < limit; i++)
 		{
-			MPI_Recv(result.getRow(i), sizeX, MPI_DOUBLE, rnk, rank, MPI_COMM_WORLD, &status);
+			MPI_Recv(result.getRow(i), sizeX, MPI_DOUBLE, rnk, i, MPI_COMM_WORLD, &status);
 		}
 	}
 
 	for(; i < sizeX; i++)
 	{
-		MPI_Recv(result.getRow(i), sizeX, MPI_DOUBLE, size - 1, rank, MPI_COMM_WORLD, &status);
+		MPI_Recv(result.getRow(i), sizeX, MPI_DOUBLE, size - 1, i, MPI_COMM_WORLD, &status);
 	}
 }
 
@@ -120,6 +120,8 @@ int main(int argc, char **argv)
 	//performing calculations
 	jacobiRedBlack(m, norm, rank, size, iterations);
 	
+
+	//TODO : sending and receiving : tag matters !!!
 
 	// results collection
 	if(rank == 0)

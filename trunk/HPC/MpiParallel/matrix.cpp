@@ -23,6 +23,8 @@ matrix::matrix(int r, int c) : rows(r), columns(c)
 
 }
 
+
+
 matrix::matrix(double **d, int r, int c) : rows(r), columns(c)
 {
 	data = new double*[rows];
@@ -88,6 +90,26 @@ matrix::matrix(const matrix &m, int sizeX, int sizeY)
 	for(int i = 0; i < rowSize; i++)
 	{
 		for(int j = 0; j < columnSize; j++)
+		{
+			data[i][j] = m(j, i);
+		}
+	}
+}
+
+matrix::matrix(const matrix & m)
+{
+	rows = m.getNumberOfRows();
+	columns = m.getNumberOfColumns();
+
+	data = new double*[rows];
+	for(int i = 0; i < rows; i++)
+	{
+		data[i] = new double[columns];
+	}
+
+	for(int i = 0; i < rows; i++)
+	{
+		for(int j = 0; j < columns; j++)
 		{
 			data[i][j] = m(i, j);
 		}

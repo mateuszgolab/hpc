@@ -14,6 +14,7 @@ public:
 	matrix(int r, int c);
 	matrix(double **data, int r, int c);
 	matrix(const matrix & m, int sizeX, int sizeY);
+	matrix(const matrix & m);
 	~matrix();
 	matrix& operator=(matrix &m);
 	int getNumberOfRows() const;

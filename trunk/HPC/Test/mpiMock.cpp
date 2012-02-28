@@ -72,3 +72,32 @@ void mpiMock::printNode(double *node, int size)
 	for(int i = 0; i < size; i++) printf("%f ", node[i]);
 	puts("");
 }
+
+void mpiMock::receiveResultsMock(const matrix & m, int sizeX, int sizeY, int size, int rank)
+{
+	matrix result(m, sizeX, sizeX);
+	int i = sizeY;
+	int limit = 0;
+
+	for(int rnk = 1; rnk < size - 1; rnk++)
+	{
+		limit = (rnk + 1)*sizeY;
+		for(; i < limit; i++)
+		{
+			MPI_Recv_Mock(result.getRow(i), sizeX, rnk, 0);
+		}
+	}
+
+	for(; i < sizeX; i++)
+	{
+		MPI_Recv_Mock(result.getRow(i), sizeX, size - 1, rank);
+	}
+}
+
+void mpiMock::sendResultsMock(matrix &m, int rank)
+{
+	for(int i = 0; i < m.getNumberOfRows(); i++)
+	{
+		MPI_Send_Mock(m.getRow(i), m.getNumberOfColumns(), 0, rank);
+	}
+}
