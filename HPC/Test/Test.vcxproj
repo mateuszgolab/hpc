@@ -95,6 +95,7 @@
     <ClCompile Include="..\Serial\EuclideanNorm.cpp" />
     <ClCompile Include="..\Serial\FirstNorm.cpp" />
     <ClCompile Include="AnalyticSolutionTest.cc" />
+    <ClCompile Include="DecompositionTest.cc" />
     <ClCompile Include="JacobiTest.cc" />
     <ClCompile Include="mpiMock.cpp" />
     <ClCompile Include="NormsTest.cc" />

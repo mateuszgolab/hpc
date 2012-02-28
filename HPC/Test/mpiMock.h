@@ -14,5 +14,7 @@ public:
 	void MPI_Recv_Mock(double* data, int size, int rank , int tag);
 	void exchangeHaloNodesMock(matrix & m, int rank, int size);
 	void addHaloNode(int rank, double* haloNode);
+	void receiveResultsMock(const matrix & m, int sizeX, int sizeY, int size, int rank);
+	void sendResultsMock(matrix &m, int rank);
 };
 

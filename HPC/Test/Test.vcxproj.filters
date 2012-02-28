@@ -48,6 +48,9 @@
     <ClCompile Include="HaloNodesTest.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="DecompositionTest.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="mpiMock.h">
