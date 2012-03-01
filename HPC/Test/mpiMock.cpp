@@ -2,58 +2,62 @@
 
 using namespace std;
 
-
+mpiMock::mpiMock(int n)
+{
+	haloNodesDown.resize(n);
+	haloNodesUp.resize(n);
+}
 
 void mpiMock::exchangeHaloNodesMock(matrix & m, int rank, int size)
 {
 	if(rank > 0)
 	{
 		// sending second row
-		MPI_Send_Mock(m.getSecondRow(), m.getNumberOfColumns(), rank - 1, rank);
+		MPI_Send_Mock(m.getSecondRow(), m.getNumberOfColumns(), rank - 1, rank, 0);
 		// receiving first row
-		MPI_Recv_Mock(m.getFirstRow(), m.getNumberOfColumns(), rank - 1, rank);
+		MPI_Recv_Mock(m.getFirstRow(), m.getNumberOfColumns(), rank - 1, rank, 0);
 	}
 
 	if(rank < size - 1)
 	{
 		// sending penultimate row
-		MPI_Send_Mock(m.getPenultimateRow(), m.getNumberOfColumns(), rank + 1, rank);
+		MPI_Send_Mock(m.getPenultimateRow(), m.getNumberOfColumns(), rank + 1, rank, 0);
 		// receiving last row
-		MPI_Recv_Mock(m.getLastRow(), m.getNumberOfColumns(), rank + 1, rank);
+		MPI_Recv_Mock(m.getLastRow(), m.getNumberOfColumns(), rank + 1, rank, 0);
 	}
 }
 
-void  mpiMock::MPI_Send_Mock(double* data, int size, int rank , int tag)
+void  mpiMock::MPI_Send_Mock(double* data, int size, int dstRank , int srcRank, int tag)
 {
-	if(rank < tag)
+	if(dstRank < srcRank)
 	{
-		haloNodesDown.insert(pair<int, double*>(tag, data));
+		haloNodesUp[srcRank].insert(pair<int, double*>(tag, data));
 	}
 	else
 	{
-		haloNodesUp.insert(pair<int, double*>(tag, data));
+		haloNodesDown[srcRank].insert(pair<int, double*>(tag, data));
 	}
 }
 
-void  mpiMock::MPI_Recv_Mock(double*  data, int size, int rank , int tag)
+void  mpiMock::MPI_Recv_Mock(double*  data, int size, int dstRank ,int srcRank, int tag)
 {
+	map<int, double*> map;
 	double *tmp = NULL;
 
-	if(rank < tag)
+	if(dstRank > srcRank)
 	{
-		if(haloNodesUp.find(rank) != haloNodesUp.end())
+		if(haloNodesUp[dstRank].size() > 0)
 		{
-			tmp = haloNodesUp[rank];
+			tmp = haloNodesUp[dstRank][tag];
 		}
 	}
 	else
 	{
-		if(haloNodesDown.find(rank) != haloNodesDown.end())
+		if(haloNodesDown[dstRank].size() > 0)
 		{
-			tmp = haloNodesDown[rank];
+			tmp = haloNodesDown[dstRank][tag];
 		}
 	}
-
 	
 	if(tmp != NULL)
 	{
@@ -61,10 +65,11 @@ void  mpiMock::MPI_Recv_Mock(double*  data, int size, int rank , int tag)
 	}
 }
 
-void mpiMock::addHaloNode(int rank, double* haloNode)
+void mpiMock::addHaloNode(int rank,int tag, double* haloNode)
 {
-	haloNodesUp.insert(pair<int, double*>(rank, haloNode));
-	haloNodesDown.insert(pair<int, double*>(rank, haloNode));
+	haloNodesUp[rank].insert(pair<int, double*>(tag, haloNode));
+	haloNodesDown[rank].insert(pair<int, double*>(tag, haloNode));
+
 }
 
 void mpiMock::printNode(double *node, int size)
@@ -73,9 +78,8 @@ void mpiMock::printNode(double *node, int size)
 	puts("");
 }
 
-void mpiMock::receiveResultsMock(const matrix & m, int sizeX, int sizeY, int size, int rank)
+void mpiMock::receiveResultsMock(const matrix & m, matrix & result, int sizeX, int sizeY, int size, int rank)
 {
-	matrix result(m, sizeX, sizeX);
 	int i = sizeY;
 	int limit = 0;
 
@@ -84,20 +88,22 @@ void mpiMock::receiveResultsMock(const matrix & m, int sizeX, int sizeY, int siz
 		limit = (rnk + 1)*sizeY;
 		for(; i < limit; i++)
 		{
-			MPI_Recv_Mock(result.getRow(i), sizeX, rnk, 0);
+			MPI_Recv_Mock(result.getRow(i), sizeX, rnk, rank, i);
 		}
 	}
 
 	for(; i < sizeX; i++)
 	{
-		MPI_Recv_Mock(result.getRow(i), sizeX, size - 1, rank);
+		MPI_Recv_Mock(result.getRow(i), sizeX, size - 1,rank, i);
 	}
 }
 
-void mpiMock::sendResultsMock(matrix &m, int rank)
+void mpiMock::sendResultsMock(matrix &m, int dstRank, int srcRank, int rows)
 {
+	int offset = srcRank * rows;
+
 	for(int i = 0; i < m.getNumberOfRows(); i++)
 	{
-		MPI_Send_Mock(m.getRow(i), m.getNumberOfColumns(), 0, rank);
+		MPI_Send_Mock(m.getRow(i), m.getNumberOfColumns(), dstRank, srcRank, i + offset);
 	}
 }

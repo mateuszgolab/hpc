@@ -11,6 +11,8 @@ TEST(sendResultsTest, dataAmountTest)
 	matrix m2(2,9);
 	matrix m3(3,9);
 
+	int rows = 2;
+
 	for(int i = 0; i < 2; i++)
 	{
 		for(int j = 0; j < 9; j++)
@@ -21,24 +23,25 @@ TEST(sendResultsTest, dataAmountTest)
 			m3.setValue(j, i, i + 6);
 		}
 	}
-
 	for(int j = 0; j < 9; j++)
 	{
 		m3.setValue(j, 2, 8);
 	}
 
-	mpiMock mock;
-	mock.sendResultsMock(m1, 1);
-	mock.sendResultsMock(m2, 2);
-	mock.sendResultsMock(m3, 3);
+	mpiMock mock(4);
+	mock.sendResultsMock(m1, 0, 1, rows);
+	mock.sendResultsMock(m2, 0, 2, rows);
+	mock.sendResultsMock(m3, 0, 3, rows);
 
-	mock.receiveResultsMock(m0, 9, 2, 4, 0);
+	matrix result(m0, 9, 9);
 
+	mock.receiveResultsMock(m0,result, 9, 2, 4, 0);
+	
 	for(int i = 0; i < 9; i++)
 	{
 		for(int j = 0; j < 9; j++)
 		{
-			EXPECT_EQ(m0(j, i), i);
+			EXPECT_EQ(result(j, i), i);
 		}
 	}
 }
