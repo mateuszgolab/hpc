@@ -47,10 +47,9 @@ void jacobiRedBlack(matrix &m, Norm &norm, int rank, int size, int iterations)
 	}
 }
 
-void receiveResults(const matrix & m, int sizeX, int sizeY, int size, int rank)
+void receiveResults(const matrix & m, matrix & result, int sizeX, int sizeY, int size, int rank)
 {
 	MPI_Status status;
-	matrix result(m, sizeX, sizeX);
 	int i = sizeY;
 	int limit = 0;
 
@@ -69,17 +68,19 @@ void receiveResults(const matrix & m, int sizeX, int sizeY, int size, int rank)
 	}
 }
 
-void sendResults(matrix &m, int rank)
+void sendResults(matrix &m, int rank, int rows)
 {
+	int offset = rank * rows;
+
 	for(int i = 0; i < m.getNumberOfRows(); i++)
 	{
-		MPI_Send(m.getRow(i), m.getNumberOfColumns(), MPI_DOUBLE, 0, rank, MPI_COMM_WORLD);
+		MPI_Send(m.getRow(i), m.getNumberOfColumns(), MPI_DOUBLE, 0, i + offset, MPI_COMM_WORLD);
 	}
 }
 
 int main(int argc, char **argv)
 {
-	int size, rank, sizeY, additionalSize, sizeX, iterations;
+	int size, rank, sizeY, additionalSize, sizeX, iterations, rows;
 	InfinityNorm norm;
 
 	MPI_Init(&argc, &argv);
@@ -99,6 +100,7 @@ int main(int argc, char **argv)
 
 
 	sizeY = sizeX / size;
+	rows = sizeY;
 	additionalSize = sizeX % size;
 
 
@@ -126,11 +128,12 @@ int main(int argc, char **argv)
 	// results collection
 	if(rank == 0)
 	{
-		receiveResults(m, sizeX, sizeY, size, rank);
+		matrix result(m, sizeX, sizeX);
+		receiveResults(m, result, sizeX, sizeY, size, rank);
 	}
 	else //sending results 
 	{
-		sendResults(m, rank);
+		sendResults(m, rank, rows);
 	}
 
 	MPI_Finalize();

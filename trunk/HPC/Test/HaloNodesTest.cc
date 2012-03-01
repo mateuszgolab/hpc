@@ -15,11 +15,11 @@ TEST(haloNodesExchangeTest, haloNodesTest) {
 		}
 	}
 
+	
 
-	mpiMock mock;
-	mock.addHaloNode(1, m.getSecondRow());
+	mpiMock mock(10);
+	mock.addHaloNode(1, 0, m.getSecondRow());
 	mock.exchangeHaloNodesMock(m, 0, 10);
-
 
 	for(int i = 0; i < 10; i++)
 	{
@@ -34,7 +34,7 @@ TEST(haloNodesExchangeTest, twoNodesTest) {
 	{
 		for(int j = 0; j < 10; j++)
 		{
-			m.setValue(i,j ,j);
+			m.setValue(i, j ,j);
 		}
 	}
 
@@ -47,7 +47,7 @@ TEST(haloNodesExchangeTest, twoNodesTest) {
 		}
 	}
 
-	mpiMock mock;
+	mpiMock mock(10);
 	mock.exchangeHaloNodesMock(m, 0, 10);
 	mock.exchangeHaloNodesMock(m2, 1, 10);
 	mock.exchangeHaloNodesMock(m, 0, 10);
@@ -82,7 +82,7 @@ TEST(haloNodesExchangeTest, downNodeTest) {
 		}
 	}
 
-	mpiMock mock;
+	mpiMock mock(10);
 	mock.exchangeHaloNodesMock(m, 0, 10);
 	mock.exchangeHaloNodesMock(m2, 1, 10);
 
@@ -113,7 +113,7 @@ TEST(haloNodesExchangeTest, upNodeTest) {
 		}
 	}
 
-	mpiMock mock;
+	mpiMock mock(10);
 	mock.exchangeHaloNodesMock(m2, 1, 10);
 	mock.exchangeHaloNodesMock(m, 0, 10);
 
@@ -154,7 +154,7 @@ TEST(haloNodesExchangeTest, threeNodesTest) {
 	}
 
 
-	mpiMock mock;
+	mpiMock mock(10);
 	mock.exchangeHaloNodesMock(m2, 1, 3);
 	mock.exchangeHaloNodesMock(m, 0, 3);
 	mock.exchangeHaloNodesMock(m3, 2, 3);
@@ -207,7 +207,7 @@ TEST(haloNodesExchangeTest, middleNodeTest) {
 	}
 
 
-	mpiMock mock;
+	mpiMock mock(10);
 	mock.exchangeHaloNodesMock(m, 0, 3);
 	mock.exchangeHaloNodesMock(m3, 2, 3);
 	mock.exchangeHaloNodesMock(m2, 1, 3);
