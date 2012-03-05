@@ -11,7 +11,7 @@ double InfinityNorm::calculateNorm(matrix & prev, matrix & current)
 		error = 0.0;
 		for(int j = 0; j < current.getNumberOfColumns(); j++)
 		{
-			error += abs(prev(j, i) - current(j, i));
+			error += fabs(prev(i, j) - current(i, j));
 		}
 
 		if(error > max) max = error;
@@ -30,8 +30,8 @@ double InfinityNorm::calculateNorm(matrix & r)
 		error = 0.0;
 		for(int j = 0; j < r.getNumberOfColumns(); j++)
 		{
-			error += r(j, i);
-			r.setValue(j, i, 0.0);
+			error += r(i, j);
+			r.setValue(i, j, 0.0);
 		}
 
 		if(error > max) max = error;

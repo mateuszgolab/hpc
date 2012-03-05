@@ -23,8 +23,6 @@ matrix::matrix(int r, int c) : rows(r), columns(c)
 
 }
 
-
-
 matrix::matrix(double **d, int r, int c) : rows(r), columns(c)
 {
 	data = new double*[rows];
@@ -72,10 +70,10 @@ matrix::~matrix()
 	}
 }
 
-matrix::matrix(const matrix &m, int sizeX, int sizeY)
+matrix::matrix(const matrix &m, int r, int c)
 {
-	rows = sizeY;
-	columns = sizeX;
+	rows = r;
+	columns = c;
 
 	int rowSize = (rows < m.getNumberOfRows())?rows:m.getNumberOfRows();
 	int columnSize = (columns < m.getNumberOfColumns())?columns:m.getNumberOfColumns();
@@ -91,7 +89,7 @@ matrix::matrix(const matrix &m, int sizeX, int sizeY)
 	{
 		for(int j = 0; j < columnSize; j++)
 		{
-			data[i][j] = m(j, i);
+			data[i][j] = m(i, j);
 		}
 	}
 }
@@ -190,24 +188,24 @@ double* matrix::getRow(int i)
 	return data[i];
 }
 
-void matrix::setValue(int x, int y, double v)
+void matrix::setValue(int r, int c, double v)
 {
-	data[y][x] = v;
+	data[r][c] = v;
 }
 
-double matrix::operator()(int x, int y) const
+double matrix::operator()(int r, int c) const
 {
-	return data[y][x];
+	return data[r][c];
 }
 
 void matrix::graphPrint()
 {
 	puts("Y    |");
 	//puts("1.00 |");
-	for(int i = columns - 1 ; i >= 0; i--)
+	for(int i = rows - 1 ; i >= 0; i--)
 	{
-		printf("%.2f |",(double)i/(rows - 1));
-		for(int j = 0; j < rows; j++)
+		printf("%.2f |",(double)i/(columns - 1));
+		for(int j = 0; j < columns; j++)
 		{
 			printf("%f ", data[i][j]);
 		}
@@ -219,10 +217,10 @@ void matrix::graphPrint()
 
 void matrix::print()
 {
-	for(int i = 0 ; i < columns; i++)
+	for(int i = 0 ; i < rows; i++)
 	{
 		
-		for(int j = 0; j < rows; j++)
+		for(int j = 0; j < columns; j++)
 		{
 			printf("%f ", data[i][j]);
 		}

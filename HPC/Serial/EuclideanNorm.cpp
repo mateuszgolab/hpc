@@ -9,7 +9,7 @@ double EuclideanNorm::calculateNorm(matrix & prev, matrix & current)
 	{
 		for(int j = 0; j < current.getNumberOfColumns(); j++)
 		{
-			value = abs(prev(j, i) - current(j, i));
+			value = abs(prev(i, j) - current(i, j));
 			error += value * value;
 		}
 	}
@@ -26,8 +26,8 @@ double EuclideanNorm::calculateNorm(matrix & r)
 	{
 		for(int j = 0; j < r.getNumberOfColumns(); j++)
 		{
-			error += r(j, i) * r(j, i);
-			r.setValue(j, i, 0.0);
+			error += r(i, j) * r(i, j);
+			r.setValue(i, j, 0.0);
 		}
 	}
 

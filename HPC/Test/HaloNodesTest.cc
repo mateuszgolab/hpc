@@ -11,19 +11,17 @@ TEST(haloNodesExchangeTest, haloNodesTest) {
 	{
 		for(int j = 0; j < 10; j++)
 		{
-			m.setValue(i,j ,j);
+			m.setValue(i,j ,i);
 		}
 	}
-
-	
 
 	mpiMock mock(10);
 	mock.addHaloNode(1, 0, m.getSecondRow());
 	mock.exchangeHaloNodesMock(m, 0, 10);
 
-	for(int i = 0; i < 10; i++)
+	for(int j = 0; j < 10; j++)
 	{
-		EXPECT_EQ(m(i, 9), 1);
+		EXPECT_EQ(m(9, j), 1);
 	}	
 }
 
@@ -34,7 +32,7 @@ TEST(haloNodesExchangeTest, twoNodesTest) {
 	{
 		for(int j = 0; j < 10; j++)
 		{
-			m.setValue(i, j ,j);
+			m.setValue(i, j , i);
 		}
 	}
 
@@ -43,7 +41,7 @@ TEST(haloNodesExchangeTest, twoNodesTest) {
 	{
 		for(int j = 0; j < 10; j++)
 		{
-			m2.setValue(i,j ,j);
+			m2.setValue(i,j ,i);
 		}
 	}
 
@@ -52,13 +50,13 @@ TEST(haloNodesExchangeTest, twoNodesTest) {
 	mock.exchangeHaloNodesMock(m2, 1, 10);
 	mock.exchangeHaloNodesMock(m, 0, 10);
 
-	for(int i = 0; i < 10; i++)
+	for(int j = 0; j < 10; j++)
 	{
-		EXPECT_EQ(m2(i, 0), 8); 
-		EXPECT_EQ(m2(i, 1), 1); 
+		EXPECT_EQ(m2(0, j), 8); 
+		EXPECT_EQ(m2(1, j), 1); 
 
-		EXPECT_EQ(m(i, 8), 8); 
-		EXPECT_EQ(m(i, 9), 1); 
+		EXPECT_EQ(m(8, j), 8); 
+		EXPECT_EQ(m(9, j), 1); 
 	}	
 }
 
@@ -69,7 +67,7 @@ TEST(haloNodesExchangeTest, downNodeTest) {
 	{
 		for(int j = 0; j < 10; j++)
 		{
-			m.setValue(i,j ,j);
+			m.setValue(i,j , i);
 		}
 	}
 
@@ -78,7 +76,7 @@ TEST(haloNodesExchangeTest, downNodeTest) {
 	{
 		for(int j = 0; j < 10; j++)
 		{
-			m2.setValue(i,j ,j);
+			m2.setValue(i,j ,i);
 		}
 	}
 
@@ -86,10 +84,10 @@ TEST(haloNodesExchangeTest, downNodeTest) {
 	mock.exchangeHaloNodesMock(m, 0, 10);
 	mock.exchangeHaloNodesMock(m2, 1, 10);
 
-	for(int i = 0; i < 10; i++)
+	for(int j = 0; j < 10; j++)
 	{
-		EXPECT_EQ(m2(i, 0), 8); 
-		EXPECT_EQ(m2(i, 1), 1); 
+		EXPECT_EQ(m2(0, j), 8); 
+		EXPECT_EQ(m2(1, j), 1); 
 	}	
 }
 
@@ -100,7 +98,7 @@ TEST(haloNodesExchangeTest, upNodeTest) {
 	{
 		for(int j = 0; j < 10; j++)
 		{
-			m.setValue(i, j ,j);
+			m.setValue(i, j , i);
 		}
 	}
 
@@ -109,7 +107,7 @@ TEST(haloNodesExchangeTest, upNodeTest) {
 	{
 		for(int j = 0; j < 10; j++)
 		{
-			m2.setValue(i, j ,j);
+			m2.setValue(i, j , i);
 		}
 	}
 
@@ -117,10 +115,10 @@ TEST(haloNodesExchangeTest, upNodeTest) {
 	mock.exchangeHaloNodesMock(m2, 1, 10);
 	mock.exchangeHaloNodesMock(m, 0, 10);
 
-	for(int i = 0; i < 10; i++)
+	for(int j = 0; j < 10; j++)
 	{
-		EXPECT_EQ(m(i, 8), 8);
-		EXPECT_EQ(m(i, 9), 1); 
+		EXPECT_EQ(m(8, j), 8);
+		EXPECT_EQ(m(9, j), 1); 
 	}	
 }
 
@@ -131,7 +129,7 @@ TEST(haloNodesExchangeTest, threeNodesTest) {
 	{
 		for(int j = 0; j < 3; j++)
 		{
-			m.setValue(i,j ,j);
+			m.setValue(i,j , i);
 		}
 	}
 
@@ -140,7 +138,7 @@ TEST(haloNodesExchangeTest, threeNodesTest) {
 	{
 		for(int j = 0; j < 3; j++)
 		{
-			m2.setValue(i,j ,j);
+			m2.setValue(i,j , i);
 		}
 	}
 
@@ -149,7 +147,7 @@ TEST(haloNodesExchangeTest, threeNodesTest) {
 	{
 		for(int j = 0; j < 3; j++)
 		{
-			m3.setValue(i,j ,j);
+			m3.setValue(i,j ,i);
 		}
 	}
 
@@ -161,19 +159,19 @@ TEST(haloNodesExchangeTest, threeNodesTest) {
 	mock.exchangeHaloNodesMock(m2, 1, 3);
 
 
-	for(int i = 0; i < 3; i++)
+	for(int j = 0; j < 3; j++)
 	{
-		EXPECT_EQ(m(i, 0), 0); 
-		EXPECT_EQ(m(i, 1), 1); 
-		EXPECT_EQ(m(i, 2), 1); 
+		EXPECT_EQ(m(0, j), 0); 
+		EXPECT_EQ(m(1, j), 1); 
+		EXPECT_EQ(m(2, j), 1); 
 
-		EXPECT_EQ(m3(i, 0), 1); 
-		EXPECT_EQ(m3(i, 1), 1); 
-		EXPECT_EQ(m3(i, 2), 2); 
+		EXPECT_EQ(m3(0, j), 1); 
+		EXPECT_EQ(m3(1, j), 1); 
+		EXPECT_EQ(m3(2, j), 2); 
 
-		EXPECT_EQ(m2(i, 0), 1); 
-		EXPECT_EQ(m2(i, 1), 1); 
-		EXPECT_EQ(m2(i, 2), 1);
+		EXPECT_EQ(m2(0, j), 1); 
+		EXPECT_EQ(m2(1, j), 1); 
+		EXPECT_EQ(m2(2, j), 1);
 	}	
 }
 
@@ -184,7 +182,7 @@ TEST(haloNodesExchangeTest, middleNodeTest) {
 	{
 		for(int j = 0; j < 3; j++)
 		{
-			m.setValue(i,j ,j);
+			m.setValue(i,j ,i);
 		}
 	}
 
@@ -193,7 +191,7 @@ TEST(haloNodesExchangeTest, middleNodeTest) {
 	{
 		for(int j = 0; j < 3; j++)
 		{
-			m2.setValue(i,j ,j);
+			m2.setValue(i,j ,i);
 		}
 	}
 
@@ -202,7 +200,7 @@ TEST(haloNodesExchangeTest, middleNodeTest) {
 	{
 		for(int j = 0; j < 3; j++)
 		{
-			m3.setValue(i,j ,j);
+			m3.setValue(i,j ,i);
 		}
 	}
 
@@ -213,10 +211,10 @@ TEST(haloNodesExchangeTest, middleNodeTest) {
 	mock.exchangeHaloNodesMock(m2, 1, 3);
 
 
-	for(int i = 0; i < 3; i++)
+	for(int j = 0; j < 3; j++)
 	{
-		EXPECT_EQ(m2(i, 0), 1); 
-		EXPECT_EQ(m2(i, 1), 1); 
-		EXPECT_EQ(m2(i, 2), 1);
+		EXPECT_EQ(m2(0, j), 1); 
+		EXPECT_EQ(m2(1, j), 1); 
+		EXPECT_EQ(m2(2, j), 1);
 	}	
 }

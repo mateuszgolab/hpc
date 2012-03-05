@@ -24,7 +24,7 @@ void AnalyticSolver::analyticSolution(matrix &m, int iterations)
 			{
 				tmp += (-8 * sinh(it * M_PI * (1.0-x)) * sin(it * M_PI * y)) / (M_PI * it * (it * it - 4) * sinh(it * M_PI)) ;
 			}
-			m.setValue(j, i , tmp);
+			m.setValue(i, j, tmp);
 			x += x_step;
 		}
 		y += y_step;
@@ -38,12 +38,12 @@ double AnalyticSolver::validate(matrix & m1, matrix & m2)
 	srand(unsigned int(time(0)));
 	double accuracy = 0.0;
 
-	for(int i = 0; i < m1.getNumberOfColumns(); i++)
+	for(int i = 0; i < m1.getNumberOfRows(); i++)
 	{
-		int x = rand() % m1.getNumberOfColumns();
-		int y = rand() % m2.getNumberOfRows();
+		int c = rand() % m1.getNumberOfColumns();
+		int r = rand() % m1.getNumberOfRows();
 		
-		if(abs(m1(x,y) - m2(x,y)) > accuracy) accuracy = abs(m1(x,y) - m2(x,y));
+		if(abs(m1(r,c) - m2(r,c)) > accuracy) accuracy = abs(m1(r,c) - m2(r,c));
 	}
 
 	return accuracy;
