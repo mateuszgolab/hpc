@@ -67,18 +67,18 @@ TEST(FirstNormTest, differentMatricesTest2) {
 		}
 	}
 
-	// last column = 90
+	// last column = 45
 	matrix m2(10,10);
 	for(int i = 0; i < 10; i++)
 	{
 		for(int j = 0; j < 10; j++)
 		{
-			m2.setValue(i,j , i);
+			m2.setValue(i, j , i);
 		}
 	}
 
 	FirstNorm norm;
-	EXPECT_EQ(norm.calculateNorm(m, m2), 45.0);
+	EXPECT_EQ(norm.calculateNorm(m, m2), 90.0);
 	
 }
 
@@ -144,7 +144,7 @@ TEST(InfinityNormTest, differentMatricesTest2) {
 		}
 	}
 
-	// last row = 45
+	// last row = 90
 	matrix m2(10,10);
 	for(int i = 0; i < 10; i++)
 	{
@@ -155,7 +155,7 @@ TEST(InfinityNormTest, differentMatricesTest2) {
 	}
 
 	InfinityNorm norm;
-	EXPECT_EQ(norm.calculateNorm(m, m2), 90.0);
+	EXPECT_EQ(norm.calculateNorm(m, m2), 45.0);
 	
 }
 

@@ -17,15 +17,15 @@ TEST(sendResultsTest, dataAmountTest)
 	{
 		for(int j = 0; j < 9; j++)
 		{
-			m0.setValue(j, i, i);
-			m1.setValue(j, i, i + 2);
-			m2.setValue(j, i, i + 4);
-			m3.setValue(j, i, i + 6);
+			m0.setValue(i, j, i);
+			m1.setValue(i, j, i + 2);
+			m2.setValue(i, j, i + 4);
+			m3.setValue(i, j, i + 6);
 		}
 	}
 	for(int j = 0; j < 9; j++)
 	{
-		m3.setValue(j, 2, 8);
+		m3.setValue(2, j, 8);
 	}
 
 	mpiMock mock(4);
@@ -41,7 +41,7 @@ TEST(sendResultsTest, dataAmountTest)
 	{
 		for(int j = 0; j < 9; j++)
 		{
-			EXPECT_EQ(result(j, i), i);
+			EXPECT_EQ(result(i, j), i);
 		}
 	}
 }

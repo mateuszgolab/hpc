@@ -7,10 +7,10 @@ double FirstNorm::calculateNorm(matrix & prev, matrix & current)
 	double max = 0.0;
 	double error = 0.0;
 
-	for(int i = 0; i < prev.getNumberOfColumns(); i++)
+	for(int j = 0; j < prev.getNumberOfColumns(); j++)
 	{
 		error = 0.0;
-		for(int j = 0; j < current.getNumberOfRows(); j++)
+		for(int i = 0; i < current.getNumberOfRows(); i++)
 		{
 			error += abs(prev(i, j) - current(i, j));
 		}
@@ -26,10 +26,10 @@ double FirstNorm::calculateNorm(matrix & r)
 	double max = 0.0;
 	double error = 0.0;
 
-	for(int i = 0; i < r.getNumberOfColumns(); i++)
+	for(int j = 0; j < r.getNumberOfColumns(); j++)
 	{
 		error = 0.0;
-		for(int j = 0; j < r.getNumberOfRows(); j++)
+		for(int i = 0; i < r.getNumberOfRows(); i++)
 		{
 			error += r(i, j);
 			r.setValue(i, j, 0.0);

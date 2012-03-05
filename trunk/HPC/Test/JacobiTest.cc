@@ -1,8 +1,10 @@
 #include "gtest/gtest.h"
 #include "InfinityNorm.h"
 #include "IterativeSolver.h"
+#include "AnalyticSolver.h"
 
 using namespace std;
+
 
 TEST(JacobiTest, ValuesTest) {
 
@@ -15,14 +17,13 @@ TEST(JacobiTest, ValuesTest) {
 	matrix m2(10,10);
 	IterativeSolver::initMatrix(m2);
 
-	for(int i = 1; i < m.getNumberOfColumns() - 1; i++)
+	for(int i = 1; i < m.getNumberOfRows() - 1; i++)
 	{
-		for(int j = 1; j < m.getNumberOfRows() - 1; j++)
+		for(int j = 1; j < m.getNumberOfColumns() - 1; j++)
 		{
 			EXPECT_NE(m(i,j), m2(i,j));
 		}
 	}
-
 }
 
 TEST(JacobiTest, ConvergenceTest)
@@ -99,9 +100,46 @@ TEST(JacobiRedBlackForParallelTest, ValuesTest)
 	{
 		for(int j = 1; j < m.getNumberOfRows() - 1; j++)
 		{
-			EXPECT_NE(m(i,j), m2(i,j));
+			EXPECT_GE(m(i,j), m2(i,j));
 		}
 	}
+}
+
+TEST(JacobiRedBlackForParallelTest, ValuesTest2) 
+{
+	InfinityNorm norm;
+	matrix m(10,10);
+	IterativeSolver::initMatrix(m);
+
+	for(int i = 0; i < 100; i++)
+	{
+		IterativeSolver::jacobiRedBlackForParallel(m, norm);
+	}
+
+	matrix m2(10,10);
+	AnalyticSolver::analyticSolution(m2, 100);
+
+	EXPECT_LE(AnalyticSolver::validate(m, m2), 0.01);
+
+}
+
+TEST(JacobiRedBlackForParallelTest, ValuesTest3) 
+{
+	InfinityNorm norm;
+	matrix m(16, 32);
+	IterativeSolver::initMatrix(m);
+	
+	for(int i = 0; i < 500; i++)
+	{
+		IterativeSolver::jacobiRedBlackForParallel(m, norm);
+	}
+	
+
+	matrix m2(32, 32);
+	AnalyticSolver::analyticSolution(m2, 100);
+	
+	EXPECT_LE(AnalyticSolver::validate(m, m2), STOP_CRITERION);
+
 }
 
 TEST(JacobiRedBlackForParallelTest, ConvergenceTest)
@@ -122,18 +160,18 @@ TEST(JacobiRedBlackForParallelTest, ConvergenceTest)
 	EXPECT_LE(r2, r1);
 }
 
-TEST(MatrixInitializationTest, StripeDecompositionColumns)
+TEST(MatrixInitialionTest, StripeDecompositionColumns)
 {
 	matrix m(100, 10);
 	IterativeSolver::initMatrix(m);
 
-	for(int i = 0; i < m.getNumberOfColumns(); i++)
+	for(int j = 1; j < m.getNumberOfColumns(); j++)
 	{	
-		EXPECT_EQ(m(i, 0), 0.0);
-		EXPECT_EQ(m(m.getNumberOfRows() - 1, 0), 0.0);
+		EXPECT_EQ(m(0, j), 0.0);
+		EXPECT_EQ(m(m.getNumberOfRows() - 1, j), 0.0);
 	}
 
-	EXPECT_NE(m(0, m.getNumberOfRows() / 2), 0.0);
+	EXPECT_NE(m(m.getNumberOfRows() / 2, 0), 0.0);
 
 }
 
@@ -144,15 +182,13 @@ TEST(MatrixInitializationTest, StripeDecompositionRows)
 
 	for(int i = 0; i < m.getNumberOfRows(); i++)
 	{	
-		EXPECT_EQ(m(m.getNumberOfColumns() - 1, i), 0.0);
+		EXPECT_EQ(m(i, m.getNumberOfColumns() - 1), 0.0);
 	}
 
-	for(int i = 0; i < m.getNumberOfColumns(); i++)
+	for(int j = 0; j < m.getNumberOfColumns(); j++)
 	{	
-		EXPECT_EQ(m(i, 0), 0.0);
+		EXPECT_EQ(m(0, j), 0.0);
 	}
-
-
 }
 
 TEST(MatrixInitializationTest, BoundaryValuesTest) 
@@ -160,22 +196,20 @@ TEST(MatrixInitializationTest, BoundaryValuesTest)
 	matrix m(100,100);
 	IterativeSolver::initMatrix(m);
 
-
-
-	for(int i = 0; i < m.getNumberOfColumns(); i++)
+	for(int j = 0; j < m.getNumberOfColumns(); j++)
 	{	
-		EXPECT_LE(m(i, 0), STOP_CRITERION);
-		EXPECT_LE(m(i, m.getNumberOfRows() - 1), STOP_CRITERION);
-
+		EXPECT_LE(m(0, j), STOP_CRITERION);
+		EXPECT_LE(m(m.getNumberOfRows() - 1, j), STOP_CRITERION);
 	}
 
-	for(int j = 0; j < m.getNumberOfRows(); j++)
+	for(int i = 0; i < m.getNumberOfRows(); i++)
 	{
-		EXPECT_LE(m(m.getNumberOfColumns() - 1,  j), STOP_CRITERION);
+		EXPECT_LE(m(i, m.getNumberOfColumns() - 1), STOP_CRITERION);
 	}
 
-	for(int j = 1; j < m.getNumberOfRows() - 1; j++)
+	for(int i = 1; i < m.getNumberOfRows() - 1; i++)
 	{
-		EXPECT_NE(m(0, j), 0.0);
+		EXPECT_NE(m(i, 0), 0.0);
 	}
 }
+

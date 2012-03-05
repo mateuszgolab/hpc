@@ -21,12 +21,12 @@ int IterativeSolver::jacobi(matrix &m, int iterations, map<int, double> & conver
 
 	for(it = 0; it < iterations; it++)
 	{
-		for(int j = 1; j < m.getNumberOfRows() - 1; j++)
+		for(int i = 1; i < m.getNumberOfRows() - 1; i++)
 		{
-			for(int i = 1; i < m.getNumberOfColumns() - 1; i++)
+			for(int j = 1; j < m.getNumberOfColumns() - 1; j++)
 			{
 				value = 0.25 * (matrices[it%2](i-1,j) + matrices[it%2](i+1,j) + matrices[it%2](i,j-1) + matrices[it%2](i,j+1));
-				r.setValue(i, j, abs(value - matrices[it%2](i, j)));
+				r.setValue(i, j, fabs(value - matrices[it%2](i, j)));
 				matrices[(it+1)%2].setValue(i, j, value);
 			}
 		}
@@ -76,7 +76,7 @@ int IterativeSolver::jacobiRedBlack(matrix &m, int iterations, map<int, double> 
 				/*value = 0.25 * (matrices[it%2](i-1,j) + matrices[it%2](i+1,j) + matrices[it%2](i,j-1) + matrices[it%2](i,j+1));
 				matrices[(it+1)%2].setValue(i, j, value);*/
 				value = 0.25 * (m(i-1,j) + m(i+1,j) + m(i,j-1) + m(i,j+1));
-				r.setValue(i, j, abs(value - m(i, j)));
+				r.setValue(i, j, fabs(value - m(i, j)));
 				m.setValue(i, j, value);
 			}
 		}
@@ -92,7 +92,7 @@ int IterativeSolver::jacobiRedBlack(matrix &m, int iterations, map<int, double> 
 				/*value = 0.25 * (matrices[(it+1)%2](i-1,j) + matrices[(it+1)%2](i+1,j) + matrices[(it+1)%2](i,j-1) + matrices[(it+1)%2](i,j+1));
 				matrices[(it+1)%2].setValue(i, j, value);*/
 				value = 0.25 * (m(i-1,j) + m(i+1,j) + m(i,j-1) + m(i,j+1));
-				r.setValue(i, j, abs(value - m(i, j)));
+				r.setValue(i, j, fabs(value - m(i, j)));
 				m.setValue(i, j, value);
 			}
 		}
@@ -131,7 +131,7 @@ double IterativeSolver::jacobiRedBlackForParallel(matrix &m, Norm & norm)
 		for(int j = 1 + (i+color)%2; j < m.getNumberOfColumns() - 1; j+=2)
 		{
 			value = 0.25 * (m(i-1,j) + m(i+1,j) + m(i,j-1) + m(i,j+1));
-			r.setValue(i, j, abs(value - m(i, j)));
+			r.setValue(i, j, fabs(value - m(i, j)));
 			m.setValue(i, j, value);
 		}
 	}
@@ -145,7 +145,7 @@ double IterativeSolver::jacobiRedBlackForParallel(matrix &m, Norm & norm)
 		for(int j = 1 + (i+color)%2; j < m.getNumberOfColumns() - 1; j+=2)
 		{
 			value = 0.25 * (m(i-1,j) + m(i+1,j) + m(i,j-1) + m(i,j+1));
-			r.setValue(i, j, abs(value - m(i, j)));
+			r.setValue(i, j, fabs(value - m(i, j)));
 			m.setValue(i, j, value);
 		}
 	}
@@ -161,15 +161,36 @@ void IterativeSolver::initMatrix(matrix &m)
 	double y = 0.0;
 	double y_step = 1.0 / (m.getNumberOfRows() - 1);
 
-	for(int j = 0 ; j < m.getNumberOfRows(); j++)
+	for(int i = 0 ; i < m.getNumberOfRows(); i++)
 	{
-		m.setValue(0, j, pow(sin(M_PI * y), 2));	
+		m.setValue(i, 0, pow(sin(M_PI * y), 2));	
 		y += y_step;
 	}
 
-	for(int i = 1 ; i < m.getNumberOfColumns(); i++)
+	for(int i = 0 ; i < m.getNumberOfRows(); i++)
 	{
-		for(int j = 0; j < m.getNumberOfRows(); j++)
+		for(int j = 1; j < m.getNumberOfColumns(); j++)
+		{
+			m.setValue(i, j, 0.0);
+		}
+	}
+}
+
+void static initMatrixForParallel(matrix &m, int rank, int size)
+{
+	double y_step = 1.0 / (m.getNumberOfRows() - 1);
+	double chunkSize = m.getNumberOfRows() / size;
+	double y = rank * chunkSize;
+
+	for(int i = 0 ; i < m.getNumberOfRows(); i++)
+	{
+		m.setValue(i, 0, pow(sin(M_PI * y), 2));	
+		y += y_step;
+	}
+
+	for(int i = 0 ; i < m.getNumberOfRows(); i++)
+	{
+		for(int j = 1; j < m.getNumberOfColumns(); j++)
 		{
 			m.setValue(i, j, 0.0);
 		}
