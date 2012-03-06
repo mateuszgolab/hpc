@@ -213,3 +213,43 @@ TEST(MatrixInitializationTest, BoundaryValuesTest)
 	}
 }
 
+TEST(MatrixInitializationForParallelTest, BoundaryValuesTest) 
+{
+	matrix m(5, 10);
+	matrix m1(5, 10);
+
+	IterativeSolver::initMatrixForParallel(m, 0, 2);
+	IterativeSolver::initMatrixForParallel(m1, 1, 2);
+
+	for(int i = 0; i < 2; i++)
+	{
+		EXPECT_GE(m1(i, 0) , m(i, 0));
+
+	}
+
+}
+
+TEST(MatrixInitializationForParallelTest, BoundaryValuesTest2) 
+{
+	matrix m(4, 20);
+	matrix m1(4, 20);
+	matrix m2(4, 20);
+	matrix m3(4, 20);
+	matrix m4(4, 20);
+
+	IterativeSolver::initMatrixForParallel(m, 0, 5);
+	IterativeSolver::initMatrixForParallel(m1, 1, 5);
+	IterativeSolver::initMatrixForParallel(m2, 2, 5);
+	IterativeSolver::initMatrixForParallel(m3, 3, 5);
+	IterativeSolver::initMatrixForParallel(m4, 4, 5);
+
+	for(int i = 1; i < 3; i++)
+	{
+		EXPECT_GE(m1(i, 0) , m(i, 0));
+		EXPECT_GE(m2(i, 0) , m1(i, 0));
+		EXPECT_GE(m2(i, 0) , m3(i, 0));
+		EXPECT_GE(m3(i, 0) , m4(i, 0));
+	}
+
+}
+

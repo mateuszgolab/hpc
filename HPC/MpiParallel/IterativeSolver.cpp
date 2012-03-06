@@ -2,9 +2,7 @@
 #include <stdio.h>
 #include <math.h>
 
-
 using namespace std;
-
 
 /**
 standard Jacobi iteration with infinity norm
@@ -176,11 +174,13 @@ void IterativeSolver::initMatrix(matrix &m)
 	}
 }
 
-void static initMatrixForParallel(matrix &m, int rank, int size)
+void IterativeSolver::initMatrixForParallel(matrix &m, int rank, int size)
 {
-	double y_step = 1.0 / (m.getNumberOfRows() - 1);
-	double chunkSize = m.getNumberOfRows() / size;
-	double y = rank * chunkSize;
+	double y_step = 1.0 / (m.getNumberOfColumns() - 1);
+	double chunkSize = m.getNumberOfColumns() / size;
+	double y = rank * chunkSize * y_step;
+
+	if(rank > 0) y -= y_step;
 
 	for(int i = 0 ; i < m.getNumberOfRows(); i++)
 	{

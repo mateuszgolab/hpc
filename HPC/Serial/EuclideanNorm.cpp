@@ -21,7 +21,6 @@ double EuclideanNorm::calculateNorm(matrix & prev, matrix & current)
 double EuclideanNorm::calculateNorm(matrix & r)
 {
 	double error = 0.0;
-	double value = 0.0;
 	for(int i = 0; i < r.getNumberOfRows(); i++)
 	{
 		for(int j = 0; j < r.getNumberOfColumns(); j++)
