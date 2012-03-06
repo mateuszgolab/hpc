@@ -3,6 +3,7 @@
 #include"matrix.h"
 #include"IterativeSolver.h"
 #include"InfinityNorm.h"
+#include"AnalyticSolver.h"
 
 
 #define DEFAULT_SIZE 128
@@ -11,12 +12,14 @@
 void exchangeHaloNodes(matrix & m, int rank, int size)
 {
 	MPI_Status status;
+	MPI_Request req;
 
 	if(rank > 0)
 	{
 		//puts(" sending second row");
 		// sending second row
 		MPI_Send(m.getSecondRow(), m.getNumberOfColumns(), MPI_DOUBLE, rank - 1, rank, MPI_COMM_WORLD);
+		//MPI_Isend(m.getSecondRow(), m.getNumberOfColumns(), MPI_DOUBLE, rank - 1, rank, MPI_COMM_WORLD, &req);
 		// receiving first row
 		//puts(" receiving first row");
 		MPI_Recv(m.getFirstRow(), m.getNumberOfColumns(), MPI_DOUBLE, rank - 1, rank - 1, MPI_COMM_WORLD, &status);
@@ -27,6 +30,7 @@ void exchangeHaloNodes(matrix & m, int rank, int size)
 		//puts("sending penultimate row");
 		// sending penultimate row
 		MPI_Send(m.getPenultimateRow(), m.getNumberOfColumns(), MPI_DOUBLE, rank + 1, rank, MPI_COMM_WORLD);
+		//MPI_Isend(m.getPenultimateRow(), m.getNumberOfColumns(), MPI_DOUBLE, rank + 1, rank, MPI_COMM_WORLD, &req);
 		//puts("receiving last row");
 		// receiving last row
 		MPI_Recv(m.getLastRow(), m.getNumberOfColumns(), MPI_DOUBLE, rank + 1, rank + 1, MPI_COMM_WORLD, &status);
@@ -36,8 +40,11 @@ void exchangeHaloNodes(matrix & m, int rank, int size)
 void jacobiRedBlack(matrix &m, Norm &norm, int rank, int size, int iterations)
 {
 	double error, maxError;
-	IterativeSolver::initMatrix(m);
+	IterativeSolver::initMatrixForParallel(m, rank, size);
 	maxError = 0.0;
+
+//	m.print();
+	//puts("++++");
 
 	for(int i = 0; i < iterations; i++)
 	{
@@ -61,22 +68,29 @@ void receiveResults(matrix & result, int colsNumber, int rowsNumber, int size)
 		limit = (rnk + 1)*rowsNumber;
 		for(; i < limit; i++)
 		{
+			//printf("receiving : %d\n", i);
 			MPI_Recv(result.getRow(i), colsNumber, MPI_DOUBLE, rnk, i, MPI_COMM_WORLD, &status);
 		}
 	}
 
 	for(; i < colsNumber; i++)
 	{
+		//printf("receiving : %d\n", i);
 		MPI_Recv(result.getRow(i), colsNumber, MPI_DOUBLE, size - 1, i, MPI_COMM_WORLD, &status);
 	}
 }
 
-void sendResults(matrix &m, int rank, int rows)
+void sendResults(matrix &m, int rank, int rows, int size)
 {
-	int offset = rank * rows;
+	int offset = rank * rows - 1;
+	int n = m.getNumberOfRows();
 
-	for(int i = 0; i < m.getNumberOfRows(); i++)
+	if(rank < size - 1) n--;
+	
+
+	for(int i = 1; i < n; i++)
 	{
+		//printf("sending : %d\n", i+ offset); 
 		MPI_Send(m.getRow(i), m.getNumberOfColumns(), MPI_DOUBLE, 0, i + offset, MPI_COMM_WORLD);
 	}
 }
@@ -119,22 +133,37 @@ int main(int argc, char **argv)
 	}
 
 	matrix m(rowsNumber, colsNumber);
+
+	// initial synchronisation
+	MPI_Barrier(MPI_COMM_WORLD);
+
+	//time counting starts
+	double start_time = MPI_Wtime();
+
 	//performing calculations
 	jacobiRedBlack(m, norm, rank, size, iterations);
 
+//	m.print();
+//	puts("----");
 	// results collection
 	if(rank == 0)
 	{
 		//puts("receiving");
 		matrix result(m, colsNumber, colsNumber);
-		receiveResults(result, colsNumber, rowsNumber, size);
+		receiveResults(result, colsNumber, rows, size);
 
-		result.print();
+		printf("Calculations time : %f seconds\n",  MPI_Wtime() - start_time);
+		puts("validating results ... ");
+		//result.print();
+
+		matrix m2(colsNumber, colsNumber);
+		AnalyticSolver::analyticSolution(m2, 100);
+		printf("error = %f\n",AnalyticSolver::validate(result, m2));
 	}
 	else //sending results 
 	{
 		//puts("sending");
-		sendResults(m, rank, rows);
+		sendResults(m, rank, rows, size);
 	}
 
 	MPI_Finalize();

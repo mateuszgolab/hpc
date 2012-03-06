@@ -1,7 +1,8 @@
 #include "AnalyticSolver.h"
 #include <math.h>
+#include <stdlib.h>
 #include <time.h>
-#include<iostream>
+#include <iostream>
 
 using namespace std;
 
@@ -35,16 +36,16 @@ double AnalyticSolver::validate(matrix & m1, matrix & m2)
 {
 	if((m1.getNumberOfColumns() != m2.getNumberOfColumns()) || (m1.getNumberOfRows() != m2.getNumberOfRows())) return -1.0;
 
-	srand(unsigned int(time(0)));
-	double accuracy = 0.0;
+	srand((time(0)));
+	double error = 0.0;
 
 	for(int i = 0; i < m1.getNumberOfRows(); i++)
 	{
 		int c = rand() % m1.getNumberOfColumns();
 		int r = rand() % m1.getNumberOfRows();
 		
-		if(abs(m1(r,c) - m2(r,c)) > accuracy) accuracy = abs(m1(r,c) - m2(r,c));
+		if(fabs(m1(r,c) - m2(r,c)) > error) error = fabs(m1(r,c) - m2(r,c));
 	}
 
-	return accuracy;
+	return error;
 }
