@@ -5,7 +5,7 @@
 
 using namespace std;
 
-TEST(FirstNormTest, equalsMatricesTest) {
+TEST(FirstNormTests, equalsMatricesTest) {
 
 	matrix m(10,10);
 	for(int i = 0; i < 10; i++)
@@ -30,7 +30,7 @@ TEST(FirstNormTest, equalsMatricesTest) {
 	
 }
 
-TEST(FirstNormTest, differentMatricesTest1) {
+TEST(FirstNormTests, differentMatricesTest1) {
 
 	matrix m(10,10);
 	for(int i = 0; i < 10; i++)
@@ -55,7 +55,7 @@ TEST(FirstNormTest, differentMatricesTest1) {
 	
 }
 
-TEST(FirstNormTest, differentMatricesTest2) {
+TEST(FirstNormTests, differentMatricesTest2) {
 
 	matrix m(10,10);
 	// last column = 90 + 45 = 135
@@ -82,7 +82,7 @@ TEST(FirstNormTest, differentMatricesTest2) {
 	
 }
 
-TEST(InfinityNormTest, equalsMatricesTest) {
+TEST(InfinityNormTests, equalsMatricesTest) {
 
 	matrix m(10,10);
 	for(int i = 0; i < 10; i++)
@@ -107,7 +107,7 @@ TEST(InfinityNormTest, equalsMatricesTest) {
 	
 }
 
-TEST(InfinityNormTest, differentMatricesTest1) {
+TEST(InfinityNormTests, differentMatricesTest1) {
 
 	matrix m(10,10);
 	for(int i = 0; i < 10; i++)
@@ -132,7 +132,7 @@ TEST(InfinityNormTest, differentMatricesTest1) {
 	
 }
 
-TEST(InfinityNormTest, differentMatricesTest2) {
+TEST(InfinityNormTests, differentMatricesTest2) {
 
 	matrix m(10,10);
 	// last row = 90 + 45 = 135
@@ -159,7 +159,7 @@ TEST(InfinityNormTest, differentMatricesTest2) {
 	
 }
 
-TEST(EuclideanNormTest, equalsMatricesTest) {
+TEST(EuclideanNormTests, equalsMatricesTest) {
 
 	matrix m(10,10);
 	for(int i = 0; i < 10; i++)
@@ -184,7 +184,7 @@ TEST(EuclideanNormTest, equalsMatricesTest) {
 	
 }
 
-TEST(EuclideanNormTest, differentMatricesTest1) {
+TEST(EuclideanNormTests, differentMatricesTest1) {
 
 	matrix m(10,10);
 	for(int i = 0; i < 10; i++)
@@ -209,7 +209,7 @@ TEST(EuclideanNormTest, differentMatricesTest1) {
 	
 }
 
-TEST(EuclideanNormTest, differentMatricesTest2) {
+TEST(EuclideanNormTests, differentMatricesTest2) {
 
 	matrix m(10,10);
 

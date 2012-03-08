@@ -6,7 +6,7 @@
 using namespace std;
 
 
-TEST(JacobiTest, ValuesTest) {
+TEST(JacobiTests, ValuesTest) {
 
 	InfinityNorm norm;
 	matrix m(10,10);
@@ -26,7 +26,7 @@ TEST(JacobiTest, ValuesTest) {
 	}
 }
 
-TEST(JacobiTest, ConvergenceTest)
+TEST(JacobiTests, ConvergenceTest)
 {
 	InfinityNorm norm;
 	matrix m(10, 10);
@@ -43,7 +43,7 @@ TEST(JacobiTest, ConvergenceTest)
 	}
 }
 
-TEST(JacobiRedBlackTest, ValuesTest) {
+TEST(JacobiRedBlackTests, ValuesTest) {
 
 	InfinityNorm norm;
 	matrix m(10,10);
@@ -64,7 +64,7 @@ TEST(JacobiRedBlackTest, ValuesTest) {
 
 }
 
-TEST(JacobiRedBlackTest, ConvergenceTest)
+TEST(JacobiRedBlackTests, ConvergenceTest)
 {
 	InfinityNorm norm;
 	matrix m(10, 10);
@@ -81,7 +81,7 @@ TEST(JacobiRedBlackTest, ConvergenceTest)
 	}
 }
 
-TEST(JacobiRedBlackForParallelTest, ValuesTest) 
+TEST(JacobiRedBlackForParallelTests, ValuesTest) 
 {
 	
 	InfinityNorm norm;
@@ -105,7 +105,7 @@ TEST(JacobiRedBlackForParallelTest, ValuesTest)
 	}
 }
 
-TEST(JacobiRedBlackForParallelTest, ValuesTest2) 
+TEST(JacobiRedBlackForParallelTests, ValuesTest2) 
 {
 	InfinityNorm norm;
 	matrix m(10,10);
@@ -123,7 +123,7 @@ TEST(JacobiRedBlackForParallelTest, ValuesTest2)
 
 }
 
-TEST(JacobiRedBlackForParallelTest, ValuesTest3) 
+TEST(JacobiRedBlackForParallelTests, ValuesTest3) 
 {
 	InfinityNorm norm;
 	matrix m(16, 32);
@@ -142,7 +142,7 @@ TEST(JacobiRedBlackForParallelTest, ValuesTest3)
 
 }
 
-TEST(JacobiRedBlackForParallelTest, ConvergenceTest)
+TEST(JacobiRedBlackForParallelTests, ConvergenceTest)
 {
 	InfinityNorm norm;
 	matrix m(10, 10);
@@ -160,7 +160,7 @@ TEST(JacobiRedBlackForParallelTest, ConvergenceTest)
 	EXPECT_LE(r2, r1);
 }
 
-TEST(MatrixInitialionTest, StripeDecompositionColumns)
+TEST(MatrixInitializationTests, StripeDecompositionColumns)
 {
 	matrix m(100, 10);
 	IterativeSolver::initMatrix(m);
@@ -175,7 +175,7 @@ TEST(MatrixInitialionTest, StripeDecompositionColumns)
 
 }
 
-TEST(MatrixInitializationTest, StripeDecompositionRows)
+TEST(MatrixInitializationTests, StripeDecompositionRows)
 {
 	matrix m(10, 100);
 	IterativeSolver::initMatrix(m);
@@ -191,7 +191,7 @@ TEST(MatrixInitializationTest, StripeDecompositionRows)
 	}
 }
 
-TEST(MatrixInitializationTest, BoundaryValuesTest) 
+TEST(MatrixInitializationTests, BoundaryValuesTest) 
 {
 	matrix m(100,100);
 	IterativeSolver::initMatrix(m);
@@ -213,7 +213,7 @@ TEST(MatrixInitializationTest, BoundaryValuesTest)
 	}
 }
 
-TEST(MatrixInitializationForParallelTest, BoundaryValuesTest) 
+TEST(MatrixInitializationTests, BoundaryValuesForParallelTest) 
 {
 	matrix m(5, 10);
 	matrix m1(5, 10);
@@ -229,7 +229,7 @@ TEST(MatrixInitializationForParallelTest, BoundaryValuesTest)
 
 }
 
-TEST(MatrixInitializationForParallelTest, BoundaryValuesTest2) 
+TEST(MatrixInitializationTests, ForParallelTest2) 
 {
 	matrix m(4, 20);
 	matrix m1(4, 20);

@@ -3,7 +3,7 @@
 
 
 
-TEST(sendResultsTest, dataAmountTest) 
+TEST(SendResultsTests, dataAmountTest) 
 {
 
 	matrix m0(2,9);
