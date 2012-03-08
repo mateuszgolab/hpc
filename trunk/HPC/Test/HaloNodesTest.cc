@@ -4,7 +4,7 @@
 
 using namespace std;
 
-TEST(haloNodesExchangeTest, haloNodesTest) {
+TEST(HaloNodesExchangeTests, haloNodesTest) {
 
 	matrix m(10,10);
 	for(int i = 0; i < 10; i++)
@@ -25,7 +25,7 @@ TEST(haloNodesExchangeTest, haloNodesTest) {
 	}	
 }
 
-TEST(haloNodesExchangeTest, twoNodesTest) {
+TEST(HaloNodesExchangeTests, twoNodesTest) {
 
 	matrix m(10,10);
 	for(int i = 0; i < 10; i++)
@@ -60,7 +60,7 @@ TEST(haloNodesExchangeTest, twoNodesTest) {
 	}	
 }
 
-TEST(haloNodesExchangeTest, downNodeTest) {
+TEST(HaloNodesExchangeTests, downNodeTest) {
 
 	matrix m(10,10);
 	for(int i = 0; i < 10; i++)
@@ -91,7 +91,7 @@ TEST(haloNodesExchangeTest, downNodeTest) {
 	}	
 }
 
-TEST(haloNodesExchangeTest, upNodeTest) {
+TEST(HaloNodesExchangeTests, upNodeTest) {
 
 	matrix m(10,10);
 	for(int i = 0; i < 10; i++)
@@ -122,7 +122,7 @@ TEST(haloNodesExchangeTest, upNodeTest) {
 	}	
 }
 
-TEST(haloNodesExchangeTest, threeNodesTest) {
+TEST(HaloNodesExchangeTests, threeNodesTest) {
 
 	matrix m(3,3);
 	for(int i = 0; i < 3; i++)
@@ -175,7 +175,7 @@ TEST(haloNodesExchangeTest, threeNodesTest) {
 	}	
 }
 
-TEST(haloNodesExchangeTest, middleNodeTest) {
+TEST(HaloNodesExchangeTests, middleNodeTest) {
 
 	matrix m(3,3);
 	for(int i = 0; i < 3; i++)

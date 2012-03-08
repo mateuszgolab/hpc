@@ -3,7 +3,7 @@
 #include "AnalyticSolver.h"
 #include "IterativeSolver.h"
 
-TEST(AnalyticSolutionTest, ValuesRangeTest) {
+TEST(AnalyticSolutionTests, ValuesRangeTest) {
 
 	matrix m(100,100);
 	AnalyticSolver::analyticSolution(m, 100);
@@ -19,7 +19,7 @@ TEST(AnalyticSolutionTest, ValuesRangeTest) {
 }
 
 
-TEST(AnalyticSolutionTest, BoundaryValuesTest) {
+TEST(AnalyticSolutionTests, BoundaryValuesTest) {
 
 	matrix m(100,100);
 	AnalyticSolver::analyticSolution(m, 100);
