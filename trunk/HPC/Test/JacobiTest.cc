@@ -3,6 +3,8 @@
 #include "IterativeSolver.h"
 #include "AnalyticSolver.h"
 
+#define E 0.001
+
 using namespace std;
 
 
@@ -12,7 +14,7 @@ TEST(JacobiTests, ValuesTest) {
 	matrix m(10,10);
 	IterativeSolver::initMatrix(m);
 	map<int, double> mp;
-	IterativeSolver::jacobi(m, 1000, mp, norm);
+	IterativeSolver::jacobi(m, 1000, mp, norm, E);
 
 	matrix m2(10,10);
 	IterativeSolver::initMatrix(m2);
@@ -33,7 +35,7 @@ TEST(JacobiTests, ConvergenceTest)
 	IterativeSolver::initMatrix(m);
 
 	map<int, double> mp;
-	IterativeSolver::jacobi(m, 1000, mp, norm);
+	IterativeSolver::jacobi(m, 1000, mp, norm, E);
 	map<int, double>::iterator it;
 	double prev = 1000000000000;
 	for(it = mp.begin(); it != mp.end(); it++)
@@ -49,7 +51,7 @@ TEST(JacobiRedBlackTests, ValuesTest) {
 	matrix m(10,10);
 	IterativeSolver::initMatrix(m);
 	map<int, double> mp;
-	IterativeSolver::jacobiRedBlack(m, 1000, mp, norm);
+	IterativeSolver::jacobiRedBlack(m, 1000, mp, norm, E);
 
 	matrix m2(10,10);
 	IterativeSolver::initMatrix(m2);
@@ -71,7 +73,7 @@ TEST(JacobiRedBlackTests, ConvergenceTest)
 	IterativeSolver::initMatrix(m);
 
 	map<int, double> mp;
-	IterativeSolver::jacobiRedBlack(m, 1000, mp, norm);
+	IterativeSolver::jacobiRedBlack(m, 1000, mp, norm, E);
 	map<int, double>::iterator it;
 	double prev = 1000000000000;
 	for(it = mp.begin(); it != mp.end(); it++)

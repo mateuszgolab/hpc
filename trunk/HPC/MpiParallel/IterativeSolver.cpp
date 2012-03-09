@@ -7,7 +7,7 @@ using namespace std;
 /**
 standard Jacobi iteration with infinity norm
 */
-int IterativeSolver::jacobi(matrix &m, int iterations, map<int, double> & convergence, Norm & norm)
+int IterativeSolver::jacobi(matrix &m, int iterations, map<int, double> & convergence, Norm & norm, double epsilon)
 {
 	matrix matrices[2];
 	matrices[0] = m;
@@ -33,7 +33,7 @@ int IterativeSolver::jacobi(matrix &m, int iterations, map<int, double> & conver
 
 		if(!(it % 10)) convergence.insert(pair<int, double>(it ,error));
 
-		if(error < STOP_CRITERION)
+		if(error < epsilon)
 		{
 			m = matrices[(it+1)%2];
 			return it;
@@ -48,7 +48,7 @@ int IterativeSolver::jacobi(matrix &m, int iterations, map<int, double> & conver
 /**
 red black ordering Jacobi iteration with infinity norm
 */
-int IterativeSolver::jacobiRedBlack(matrix &m, int iterations, map<int, double> & convergence, Norm & norm)
+int IterativeSolver::jacobiRedBlack(matrix &m, int iterations, map<int, double> & convergence, Norm & norm, double epsilon)
 {
 	matrix matrices[2];
 	matrices[0] = m;
@@ -103,7 +103,7 @@ int IterativeSolver::jacobiRedBlack(matrix &m, int iterations, map<int, double> 
 
 		if(!(it % 10)) convergence.insert(pair<int, double>(it ,maxError));
 
-		if(maxError < STOP_CRITERION)
+		if(maxError < epsilon)
 		{
 			//m = matrices[(it+1)%2];
 			return it;
