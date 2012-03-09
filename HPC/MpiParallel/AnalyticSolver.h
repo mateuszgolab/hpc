@@ -1,5 +1,7 @@
 #pragma once
 
+#define STOP_CRITERION 0.001
+
 #include"matrix.h"
 
 class AnalyticSolver

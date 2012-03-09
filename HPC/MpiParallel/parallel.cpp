@@ -6,8 +6,13 @@
 #include"AnalyticSolver.h"
 
 
-#define DEFAULT_SIZE 128
+#define DEFAULT_SIZE 64
 #define DEFAULT_MAX_ITERATIONS 1000
+
+double calculateEpsilon(int n)
+{
+	return 0.008 / (n / 64);
+}
 
 void exchangeHaloNodes(matrix & m, int rank, int size)
 {
@@ -40,7 +45,7 @@ void exchangeHaloNodes(matrix & m, int rank, int size)
 	}
 }
 
-void jacobiRedBlack(matrix &m, Norm &norm, int rank, int size, int iterations, int * iterationsPerformed)
+void jacobiRedBlack(matrix &m, Norm &norm, int rank, int size, int iterations, int * iterationsPerformed, double epsilon)
 {
 	double error, maxError;
 	int i = 0;
@@ -57,7 +62,7 @@ void jacobiRedBlack(matrix &m, Norm &norm, int rank, int size, int iterations, i
 		MPI_Allreduce(&error, &maxError, 1, MPI_DOUBLE, MPI_MAX, MPI_COMM_WORLD);
 //		printf("%f\n", error);
 		exchangeHaloNodes(m, rank, size);
-		if(maxError < STOP_CRITERION) break;
+		if(maxError < epsilon) break;
 	}
 
 	MPI_Allreduce(&i, iterationsPerformed, 1, MPI_INT, MPI_MAX, MPI_COMM_WORLD);
@@ -105,6 +110,10 @@ int main(int argc, char **argv)
 {
 	int size, rank, rowsNumber, additionalSize, colsNumber, iterations, rows, iterationsPerformed;
 	InfinityNorm norm;
+	double epsilon;
+
+	//time counting starts
+	double start_time = MPI_Wtime();
 
 	MPI_Init(&argc, &argv);
 
@@ -118,6 +127,9 @@ int main(int argc, char **argv)
 	iterations = DEFAULT_MAX_ITERATIONS;
 	if(argc > 2)
 		sscanf(argv[2], "%d", &iterations);
+
+	epsilon = calculateEpsilon(colsNumber);
+
 
 
 	rowsNumber = colsNumber / size;
@@ -143,13 +155,11 @@ int main(int argc, char **argv)
 	// initial synchronisation
 	MPI_Barrier(MPI_COMM_WORLD);
 
-	//time counting starts
-	double start_time = MPI_Wtime();
 
 	iterationsPerformed = 0;
 
 	//performing calculations
-	jacobiRedBlack(m, norm, rank, size, iterations, &iterationsPerformed);
+	jacobiRedBlack(m, norm, rank, size, iterations, &iterationsPerformed, epsilon);
 
 //	m.print();
 //	puts("----");
@@ -161,12 +171,12 @@ int main(int argc, char **argv)
 		receiveResults(result, colsNumber, rows, size);
 
 		printf("Calculations time : %f seconds\n",  MPI_Wtime() - start_time);
-		printf("Max number of iterations performed on every processor  : %d \n",  iterationsPerformed);
-		puts("validating results ... ");
-		//result.print();
-
+		printf("Max number of iterations performed by single processor  : %d \n",  iterationsPerformed);
 		matrix m2(colsNumber, colsNumber);
 		AnalyticSolver::analyticSolution(m2, 100);
+		printf("matrix size = %d\n", colsNumber);
+		printf("number of processors = %d\n", size);
+		printf("epsilon = %f\n", epsilon);
 		printf("error = %f\n",AnalyticSolver::validate(result, m2));
 	}
 	else //sending results 

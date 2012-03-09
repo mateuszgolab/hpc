@@ -18,14 +18,14 @@
 using namespace std;
 
 
-void jacobiMethods(Norm & norm, int n, matrix & m)
+void jacobiMethods(Norm & norm, int n, matrix & m, double epsilon)
 {
 	// jacobi 
 	matrix m2(n,n);
 	IterativeSolver::initMatrix(m2);
 	map<int, double> mp;
 	int time = GetTickCount();
-	int it = IterativeSolver::jacobi(m2, JACOBI_ITERATIONS, mp, norm);
+	int it = IterativeSolver::jacobi(m2, JACOBI_ITERATIONS, mp, norm, epsilon);
 	cout<<"jacobi using "<<typeid(norm).name()<<endl;
 	cout<<GetTickCount() - time<<" ms"<<endl;
 	cout<<it<<" iterations"<<endl;
@@ -37,7 +37,7 @@ void jacobiMethods(Norm & norm, int n, matrix & m)
 	IterativeSolver::initMatrix(m3);
 	map<int, double> mp2;
 	time = GetTickCount();
-	it = IterativeSolver::jacobiRedBlack(m3, JACOBI_ITERATIONS, mp2, norm);
+	it = IterativeSolver::jacobiRedBlack(m3, JACOBI_ITERATIONS, mp2, norm, epsilon);
 	cout<<"jacobi red-black ordering using "<<typeid(norm).name()<<endl;
 	cout<<GetTickCount() - time<<" ms"<<endl;
 	cout<<it<<" iterations"<<endl;
@@ -46,14 +46,14 @@ void jacobiMethods(Norm & norm, int n, matrix & m)
 
 }
 
-void jacobiConvergence(Norm & norm, int n)
+void jacobiConvergence(Norm & norm, int n, double epsilon)
 {
 	// jacobi 
 	matrix m(n,n);
 	IterativeSolver::initMatrix(m);
 	map<int, double> mp;
 	map<int, double>::iterator it;
-	IterativeSolver::jacobi(m, JACOBI_ITERATIONS, mp, norm);
+	IterativeSolver::jacobi(m, JACOBI_ITERATIONS, mp, norm, epsilon);
 
 	for(it = mp.begin(); it != mp.end(); it++)
 	{
@@ -61,14 +61,14 @@ void jacobiConvergence(Norm & norm, int n)
 	}
 }
 
-void jacobiRedBlackConvergence(Norm & norm, int n)
+void jacobiRedBlackConvergence(Norm & norm, int n, double epsilon)
 {
 	// jacobi red black ordering
 	matrix m(n,n);
 	IterativeSolver::initMatrix(m);
 	map<int, double> mp;
 	map<int, double>::iterator it;
-	IterativeSolver::jacobiRedBlack(m, JACOBI_ITERATIONS, mp, norm);
+	IterativeSolver::jacobiRedBlack(m, JACOBI_ITERATIONS, mp, norm, epsilon);
 
 	for(it = mp.begin(); it != mp.end(); it++)
 	{
